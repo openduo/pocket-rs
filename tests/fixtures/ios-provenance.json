@@ -1,0 +1,19 @@
+{
+  "harness_sha256": {
+    "Generate.swift": "a0d5146048ade5170de9b88e8c14f86735383db3d0954e1d29146cc7e878fb95",
+    "Support.swift": "ba11e25dadb9f3d26735329b025aa46ee3fc0c5519fe4d3599e8183a86e95f1e"
+  },
+  "repository": "https://github.com/openduo/pocket-ios",
+  "revision": "b9d91bb9b77a12c3e59e6f359af1e4537a4ded39",
+  "sources_sha256": {
+    "Packages/PocketKit/Sources/PocketCore/AmbientEdge.swift": "39950ce76fe117dd88ba1174aafb65e4e7c7c9a04f9e707977a43b6c276aeda8",
+    "Packages/PocketKit/Sources/PocketCore/ByteIO.swift": "8084e1ce3da3419f00940b18065962e379bf7a830d1ee15951091b7548b16a6f",
+    "Packages/PocketKit/Sources/PocketCore/Pairing.swift": "14bd964b9b9071dccefdf197dc8e5aaad78bfdeab1f7434cef15ea7a6925294b",
+    "Packages/PocketKit/Sources/PocketCore/PocketConstants.swift": "331afd7153dca3eac148023a1b6c951832fa457819e882a9c42f890bede1c1d8",
+    "Packages/PocketKit/Sources/PocketCore/RedialBackoff.swift": "d5083d2bc27fae0ae1e56faa63884749a6681adc0106fd41aef044b438dbecd3",
+    "Packages/PocketKit/Sources/PocketCore/Sight.swift": "c45467db10a33abefbc9ed0a68c7286f0ea261287b7c337a23626c0f6fa38c08",
+    "Packages/PocketKit/Sources/PocketCore/Surface.swift": "2bb8ef28147a79a56de131aee921ec4f3ad496cd25a24287ee6c1bf0ff2afa10",
+    "Packages/PocketKit/Sources/PocketCore/VoiceNote.swift": "e8f38c62c540372610a3cd418f9d8dadc87e725a040751998848be41bdf8def7"
+  },
+  "vectors_sha256": "a8547d0afc7760c89292ae23c18816ce07040f33c348cae37a80385be69d9e86"
+}

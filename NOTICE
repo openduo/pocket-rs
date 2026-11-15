@@ -1,0 +1,10 @@
+Pocket Rust
+Copyright 2026 openduo and OpenDuo contributors
+
+Room protocol and state-machine behavior derives from openduo/pocket-ios at
+b9d91bb9b77a12c3e59e6f359af1e4537a4ded39 and openduo/pocket-android at
+9f59814df246c22c6e01c18b0c150ea1e93f37b0, under FSL-1.1-Apache-2.0.
+Original attributions are retained in derived source files and compatibility provenance.
+
+OpenDuo, DuoDuo, 多多, associated marks and application artwork are brand assets outside the
+code license. No artwork, private device firmware, credentials or recordings are distributed here.

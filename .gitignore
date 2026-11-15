@@ -1,0 +1,6 @@
+/target/
+/.build/
+/dist/
+.DS_Store
+*.local.json
+*.local.env

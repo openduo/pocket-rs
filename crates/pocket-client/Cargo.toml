@@ -1,0 +1,24 @@
+# Copyright 2026 OpenDuo contributors
+# SPDX-License-Identifier: FSL-1.1-Apache-2.0
+[package]
+name = "pocket-client"
+description = "Native Linux reference client for the DuoDuo Pocket Rust protocol"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "pocket"
+path = "src/main.rs"
+
+[dependencies]
+pocket-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+url.workspace = true
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "rustls-tls"] }
+tungstenite = { version = "0.26", features = ["rustls-tls-webpki-roots"] }
+clap = { version = "4", features = ["derive"] }

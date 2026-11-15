@@ -1,0 +1,5473 @@
+{
+  "ambient" : [
+    {
+      "name" : "hello waits for a packet",
+      "results" : [
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c1",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        }
+      ],
+      "steps" : [
+        {
+          "op" : "open"
+        },
+        {
+          "frame" : {
+            "conn" : "c1",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        },
+        {
+          "aec" : true,
+          "op" : "packet"
+        }
+      ]
+    },
+    {
+      "name" : "packet before connection",
+      "results" : [
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : false,
+                "conn" : "c2",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c2",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        }
+      ],
+      "steps" : [
+        {
+          "op" : "open"
+        },
+        {
+          "op" : "packet"
+        },
+        {
+          "frame" : {
+            "conn" : "c2",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        }
+      ]
+    },
+    {
+      "name" : "peer and takeover",
+      "results" : [
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c1",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : "peer",
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c1",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : "peer",
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : "master",
+            "sends_audio" : true
+          }
+        }
+      ],
+      "steps" : [
+        {
+          "op" : "open"
+        },
+        {
+          "frame" : {
+            "conn" : "c1",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        },
+        {
+          "aec" : true,
+          "op" : "packet"
+        },
+        {
+          "frame" : {
+            "role" : "peer",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        },
+        {
+          "op" : "takeover"
+        },
+        {
+          "frame" : {
+            "role" : "master",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        }
+      ]
+    },
+    {
+      "name" : "overlapping presses",
+      "results" : [
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c1",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "on" : false,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        }
+      ],
+      "steps" : [
+        {
+          "op" : "open"
+        },
+        {
+          "frame" : {
+            "conn" : "c1",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        },
+        {
+          "aec" : true,
+          "op" : "packet"
+        },
+        {
+          "op" : "press_begin"
+        },
+        {
+          "op" : "press_begin"
+        },
+        {
+          "op" : "press_end"
+        },
+        {
+          "op" : "press_end"
+        },
+        {
+          "op" : "press_end"
+        }
+      ]
+    },
+    {
+      "name" : "reconnect",
+      "results" : [
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c1",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "clear_playback"
+            },
+            {
+              "type" : "reset_decoder"
+            }
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 1,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 1,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c3",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c3",
+            "current" : null,
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        }
+      ],
+      "steps" : [
+        {
+          "op" : "open"
+        },
+        {
+          "frame" : {
+            "conn" : "c1",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        },
+        {
+          "aec" : true,
+          "op" : "packet"
+        },
+        {
+          "op" : "close"
+        },
+        {
+          "op" : "open"
+        },
+        {
+          "frame" : {
+            "conn" : "c3",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        }
+      ]
+    },
+    {
+      "name" : "played cadence",
+      "results" : [
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c1",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "reset_decoder"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 1,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 2,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 3,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 4,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 5,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 6,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 7,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 8,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 9,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 10,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 11,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 12,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 13,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 14,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 15,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 16,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 17,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 18,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 19,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 20,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "ms" : 60,
+                "speech_id" : "c-answer",
+                "type" : "played"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 19,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 18,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 17,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 16,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 15,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "ms" : 360,
+                "speech_id" : "c-answer",
+                "type" : "played"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 14,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 13,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 12,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 11,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 10,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "ms" : 660,
+                "speech_id" : "c-answer",
+                "type" : "played"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 9,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 8,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 7,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 6,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 5,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "ms" : 960,
+                "speech_id" : "c-answer",
+                "type" : "played"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 4,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 3,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 2,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 1,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "ms" : 1200,
+                "speech_id" : "c-answer",
+                "type" : "played"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c-answer",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        }
+      ],
+      "steps" : [
+        {
+          "op" : "open"
+        },
+        {
+          "frame" : {
+            "conn" : "c1",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        },
+        {
+          "aec" : true,
+          "op" : "packet"
+        },
+        {
+          "frame" : {
+            "speech_id" : "c-answer",
+            "type" : "speech"
+          },
+          "op" : "frame"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "played"
+        }
+      ]
+    },
+    {
+      "name" : "stop filler and stale answer",
+      "results" : [
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c1",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "reset_decoder"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "s1",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "s1",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "reset_decoder"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c1",
+            "generation" : 2,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c1",
+            "generation" : 2,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "clear_playback"
+            },
+            {
+              "type" : "reset_decoder"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 3,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        }
+      ],
+      "steps" : [
+        {
+          "op" : "open"
+        },
+        {
+          "frame" : {
+            "conn" : "c1",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        },
+        {
+          "aec" : true,
+          "op" : "packet"
+        },
+        {
+          "frame" : {
+            "speech_id" : "s1",
+            "type" : "speech"
+          },
+          "op" : "frame"
+        },
+        {
+          "frame" : {
+            "type" : "stop_audio"
+          },
+          "op" : "frame"
+        },
+        {
+          "frame" : {
+            "speech_id" : "c1",
+            "type" : "speech"
+          },
+          "op" : "frame"
+        },
+        {
+          "frame" : {
+            "speech_id" : "old",
+            "type" : "stop_audio"
+          },
+          "op" : "frame"
+        },
+        {
+          "frame" : {
+            "speech_id" : "c1",
+            "type" : "stop_audio"
+          },
+          "op" : "frame"
+        }
+      ]
+    },
+    {
+      "name" : "press drops later audio",
+      "results" : [
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c1",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "reset_decoder"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c1",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "on" : false,
+                "type" : "mute"
+              },
+              "type" : "send"
+            },
+            {
+              "type" : "clear_playback"
+            },
+            {
+              "type" : "reset_decoder"
+            },
+            {
+              "frame" : {
+                "speech_id" : "c1",
+                "type" : "interrupted"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 2,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "clear_playback"
+            },
+            {
+              "type" : "reset_decoder"
+            },
+            {
+              "frame" : {
+                "speech_id" : "c2",
+                "type" : "interrupted"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 3,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 3,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 3,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 3,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        }
+      ],
+      "steps" : [
+        {
+          "op" : "open"
+        },
+        {
+          "frame" : {
+            "conn" : "c1",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        },
+        {
+          "aec" : true,
+          "op" : "packet"
+        },
+        {
+          "frame" : {
+            "speech_id" : "c1",
+            "type" : "speech"
+          },
+          "op" : "frame"
+        },
+        {
+          "op" : "press_begin"
+        },
+        {
+          "frame" : {
+            "speech_id" : "c2",
+            "type" : "speech"
+          },
+          "op" : "frame"
+        },
+        {
+          "bytes" : [
+            1
+          ],
+          "op" : "binary"
+        },
+        {
+          "op" : "press_end"
+        },
+        {
+          "bytes" : [
+            1
+          ],
+          "op" : "binary"
+        }
+      ]
+    },
+    {
+      "name" : "read interrupted by live speech",
+      "results" : [
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c1",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "reset_decoder"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c1",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "clear_playback"
+            },
+            {
+              "type" : "reset_decoder"
+            },
+            {
+              "frame" : {
+                "speech_id" : "c1",
+                "type" : "interrupted"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 2,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : true,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 2,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : true,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "stop_read"
+            },
+            {
+              "type" : "clear_playback"
+            },
+            {
+              "type" : "reset_decoder"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c2",
+            "generation" : 3,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        }
+      ],
+      "steps" : [
+        {
+          "op" : "open"
+        },
+        {
+          "frame" : {
+            "conn" : "c1",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        },
+        {
+          "aec" : true,
+          "op" : "packet"
+        },
+        {
+          "frame" : {
+            "speech_id" : "c1",
+            "type" : "speech"
+          },
+          "op" : "frame"
+        },
+        {
+          "op" : "read_begin"
+        },
+        {
+          "frame" : {
+            "type" : "stop_audio"
+          },
+          "op" : "frame"
+        },
+        {
+          "frame" : {
+            "speech_id" : "c2",
+            "type" : "speech"
+          },
+          "op" : "frame"
+        }
+      ]
+    },
+    {
+      "name" : "stale playback completion",
+      "results" : [
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c1",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "reset_decoder"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c1",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c1",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 1,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "reset_decoder"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c2",
+            "generation" : 2,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c2",
+            "generation" : 2,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c2",
+            "generation" : 2,
+            "hello_sent" : true,
+            "pending_blocks" : 1,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "ms" : 20,
+                "speech_id" : "c2",
+                "type" : "played"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c2",
+            "generation" : 2,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        }
+      ],
+      "steps" : [
+        {
+          "op" : "open"
+        },
+        {
+          "frame" : {
+            "conn" : "c1",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        },
+        {
+          "aec" : true,
+          "op" : "packet"
+        },
+        {
+          "frame" : {
+            "speech_id" : "c1",
+            "type" : "speech"
+          },
+          "op" : "frame"
+        },
+        {
+          "generation" : 1,
+          "op" : "scheduled"
+        },
+        {
+          "frame" : {
+            "speech_id" : "c2",
+            "type" : "speech"
+          },
+          "op" : "frame"
+        },
+        {
+          "generation" : 1,
+          "ms" : 100,
+          "op" : "played"
+        },
+        {
+          "generation" : 2,
+          "op" : "scheduled"
+        },
+        {
+          "generation" : 2,
+          "ms" : 20,
+          "op" : "played"
+        }
+      ]
+    },
+    {
+      "name" : "silent playback and hush",
+      "results" : [
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : null,
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : false,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : false
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "aec" : true,
+                "conn" : "c1",
+                "edge" : "client",
+                "room" : "fixture-room",
+                "type" : "hello"
+              },
+              "type" : "send"
+            },
+            {
+              "frame" : {
+                "on" : true,
+                "type" : "mute"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 0,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "reset_decoder"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c1",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "frame" : {
+                "ms" : 60,
+                "speech_id" : "c1",
+                "type" : "played"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : "c1",
+            "generation" : 1,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "type" : "clear_playback"
+            },
+            {
+              "type" : "reset_decoder"
+            },
+            {
+              "frame" : {
+                "type" : "hush"
+              },
+              "type" : "send"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 2,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        },
+        {
+          "actions" : [
+            {
+              "code" : "audio_without_speech",
+              "type" : "notice"
+            }
+          ],
+          "state" : {
+            "conn" : "c1",
+            "current" : null,
+            "generation" : 2,
+            "hello_sent" : true,
+            "pending_blocks" : 0,
+            "reading" : false,
+            "role" : null,
+            "sends_audio" : true
+          }
+        }
+      ],
+      "steps" : [
+        {
+          "op" : "open"
+        },
+        {
+          "frame" : {
+            "conn" : "c1",
+            "type" : "meta"
+          },
+          "op" : "frame"
+        },
+        {
+          "aec" : true,
+          "op" : "packet"
+        },
+        {
+          "frame" : {
+            "speech_id" : "c1",
+            "type" : "speech"
+          },
+          "op" : "frame"
+        },
+        {
+          "generation" : 1,
+          "ms" : 60,
+          "op" : "skipped"
+        },
+        {
+          "op" : "hush"
+        },
+        {
+          "bytes" : [
+            1
+          ],
+          "op" : "binary"
+        }
+      ]
+    }
+  ],
+  "pairing" : [
+    {
+      "expected" : {
+        "code" : "AB12-CD34",
+        "endpoint" : {
+          "host" : "box.example.test",
+          "port" : 8443,
+          "tls" : false
+        }
+      },
+      "input" : "duoduopocket:\/\/pair?host=box.example.test&port=8443&tls=0&code=AB12-CD34"
+    },
+    {
+      "expected" : {
+        "code" : "x+y",
+        "endpoint" : {
+          "host" : "h.example.test",
+          "port" : 443,
+          "tls" : true
+        }
+      },
+      "input" : "在手机上打开：\nduoduopocket:\/\/pair?host=h.example.test&code=x%2By 十分钟内有效"
+    },
+    {
+      "expected" : {
+        "code" : "c",
+        "endpoint" : {
+          "host" : "h",
+          "port" : 443,
+          "tls" : true
+        }
+      },
+      "input" : "「duoduopocket:\/\/pair?host=h&code=c」"
+    },
+    {
+      "expected" : {
+        "code" : "c",
+        "endpoint" : {
+          "host" : "h",
+          "port" : 443,
+          "tls" : true
+        }
+      },
+      "input" : "DuoDuoPocket:\/\/PAIR?host=h&code=c"
+    },
+    {
+      "expected" : {
+        "code" : "x+y",
+        "endpoint" : {
+          "host" : "h",
+          "port" : 443,
+          "tls" : true
+        }
+      },
+      "input" : "duoduopocket:\/\/pair?host=h&code=x+y"
+    },
+    {
+      "expected" : {
+        "code" : "first",
+        "endpoint" : {
+          "host" : "h",
+          "port" : 443,
+          "tls" : true
+        }
+      },
+      "input" : "duoduopocket:\/\/pair?host=h&host=ignored&code=first&code=second"
+    },
+    {
+      "expected" : null,
+      "input" : ""
+    },
+    {
+      "expected" : null,
+      "input" : "https:\/\/example.test\/pair?host=h&code=c"
+    },
+    {
+      "expected" : null,
+      "input" : "duoduopocket:\/\/share"
+    },
+    {
+      "expected" : null,
+      "input" : "duoduopocket:\/\/pair?host=h"
+    },
+    {
+      "expected" : null,
+      "input" : "duoduopocket:\/\/pair?code=c"
+    },
+    {
+      "expected" : null,
+      "input" : "duoduopocket:\/\/pair?host=h&code=c&port=0"
+    },
+    {
+      "expected" : null,
+      "input" : "duoduopocket:\/\/pair?host=h&code=c&port=70000"
+    },
+    {
+      "expected" : null,
+      "input" : "duoduopocket:\/\/pair?host=h&code=c&port=x"
+    },
+    {
+      "expected" : null,
+      "input" : "duoduopocket:\/\/pair?host=h&code=c&tls=maybe"
+    }
+  ],
+  "redial_ms" : [
+    1000,
+    2000,
+    4000,
+    8000,
+    16000,
+    30000,
+    30000,
+    30000,
+    30000,
+    30000
+  ],
+  "schema" : 1,
+  "surfaces" : [
+    {
+      "frame" : {
+        "display" : "phone_awake",
+        "spoken" : false,
+        "type" : "surface"
+      },
+      "headers" : {
+        "X-Ambient-Display" : "phone_awake",
+        "X-Ambient-Spoken" : "0"
+      },
+      "input" : {
+        "display" : "phone_awake",
+        "spoken" : false
+      }
+    },
+    {
+      "frame" : {
+        "display" : "phone_awake",
+        "spoken" : true,
+        "type" : "surface"
+      },
+      "headers" : {
+        "X-Ambient-Display" : "phone_awake",
+        "X-Ambient-Spoken" : "1"
+      },
+      "input" : {
+        "display" : "phone_awake",
+        "spoken" : true
+      }
+    },
+    {
+      "frame" : {
+        "display" : "phone",
+        "spoken" : false,
+        "type" : "surface"
+      },
+      "headers" : {
+        "X-Ambient-Display" : "phone",
+        "X-Ambient-Spoken" : "0"
+      },
+      "input" : {
+        "display" : "phone",
+        "spoken" : false
+      }
+    },
+    {
+      "frame" : {
+        "display" : "phone",
+        "spoken" : true,
+        "type" : "surface"
+      },
+      "headers" : {
+        "X-Ambient-Display" : "phone",
+        "X-Ambient-Spoken" : "1"
+      },
+      "input" : {
+        "display" : "phone",
+        "spoken" : true
+      }
+    },
+    {
+      "frame" : {
+        "display" : "passport",
+        "spoken" : false,
+        "type" : "surface"
+      },
+      "headers" : {
+        "X-Ambient-Display" : "passport",
+        "X-Ambient-Spoken" : "0"
+      },
+      "input" : {
+        "display" : "passport",
+        "spoken" : false
+      }
+    },
+    {
+      "frame" : {
+        "display" : "passport",
+        "spoken" : true,
+        "type" : "surface"
+      },
+      "headers" : {
+        "X-Ambient-Display" : "passport",
+        "X-Ambient-Spoken" : "1"
+      },
+      "input" : {
+        "display" : "passport",
+        "spoken" : true
+      }
+    },
+    {
+      "frame" : {
+        "display" : "later",
+        "spoken" : false,
+        "type" : "surface"
+      },
+      "headers" : {
+        "X-Ambient-Display" : "later",
+        "X-Ambient-Spoken" : "0"
+      },
+      "input" : {
+        "display" : "later",
+        "spoken" : false
+      }
+    },
+    {
+      "frame" : {
+        "display" : "later",
+        "spoken" : true,
+        "type" : "surface"
+      },
+      "headers" : {
+        "X-Ambient-Display" : "later",
+        "X-Ambient-Spoken" : "1"
+      },
+      "input" : {
+        "display" : "later",
+        "spoken" : true
+      }
+    }
+  ],
+  "voice" : [
+    {
+      "body" : [
+
+      ],
+      "duration_ms" : 0,
+      "packets" : [
+
+      ]
+    },
+    {
+      "body" : [
+        1,
+        0,
+        1
+      ],
+      "duration_ms" : 20,
+      "packets" : [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "body" : [
+        3,
+        0,
+        1,
+        2,
+        3,
+        2,
+        0,
+        255,
+        0
+      ],
+      "duration_ms" : 40,
+      "packets" : [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          255,
+          0
+        ]
+      ]
+    },
+    {
+      "body" : [
+        251,
+        4,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85,
+        85
+      ],
+      "duration_ms" : 20,
+      "packets" : [
+        [
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85,
+          85
+        ]
+      ]
+    }
+  ]
+}

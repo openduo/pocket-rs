@@ -1,0 +1,20 @@
+# Copyright 2026 OpenDuo contributors
+# SPDX-License-Identifier: FSL-1.1-Apache-2.0
+[package]
+name = "pocket-ffi"
+description = "Versioned C ABI for the DuoDuo Pocket Rust protocol"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[lib]
+name = "pocket_core"
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+pocket-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true

@@ -1,0 +1,11 @@
+prefix=@PREFIX@
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: pocket-core
+Description: DuoDuo Pocket Rust room protocol C ABI
+Version: @VERSION@
+Libs: -L${libdir} -lpocket_core
+Libs.private: -ldl -lpthread -lm
+Cflags: -I${includedir}

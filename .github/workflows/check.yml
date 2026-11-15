@@ -1,0 +1,61 @@
+name: Protocol and native consumers
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rust:
+    strategy:
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.100.0
+          components: rustfmt, clippy
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - run: cargo test --workspace --locked
+      - run: cargo build --workspace --release --locked
+      - run: target/release/pocket self-test
+      - name: Install and link independent consumer
+        run: |
+          cc -std=c11 -Wall -Wextra -Werror -Iinclude examples/c/consumer.c -Ltarget/release -lpocket_core -Wl,-rpath,'$ORIGIN/../lib' -o target/release/pocket-c-smoke
+          case "$(uname -m)" in aarch64) target=aarch64-unknown-linux-gnu ;; x86_64) target=x86_64-unknown-linux-gnu ;; *) exit 1 ;; esac
+          python3 scripts/package.py --target "$target" --build-dir target/release
+          dist/pocket-rs-0.1.0-"$target"/install.sh --prefix "$RUNNER_TEMP/pocket-rs"
+          "$RUNNER_TEMP/pocket-rs/bin/pocket" self-test
+          "$RUNNER_TEMP/pocket-rs/bin/pocket-c-smoke"
+      - run: python3 scripts/dependency-notices.py --check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdk-${{ matrix.runner }}
+          path: |
+            dist/*.tar.gz
+            dist/*.sha256
+  apple:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: openduo/pocket-ios
+          ref: b9d91bb9b77a12c3e59e6f359af1e4537a4ded39
+          path: .build/upstream-ios
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.100.0
+          targets: aarch64-apple-ios, aarch64-apple-ios-sim
+      - run: python3 scripts/generate-upstream-vectors.py --ios .build/upstream-ios --check
+      - run: cargo test --workspace --locked
+      - run: scripts/build-apple.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdk-apple
+          path: |
+            dist/*.tar.gz
+            dist/*.sha256

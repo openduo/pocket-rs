@@ -1,0 +1,4 @@
+module PocketCore {
+    header "pocket_core.h"
+    export *
+}
