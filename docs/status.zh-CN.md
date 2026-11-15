@@ -39,13 +39,17 @@ Android 已发布的 Preview 2 APK 保持原样，此处指更新后的源码与
 Try 预制内容和静音原生解码／播放。均不采集麦克风、不出声、不向真实房间发送。安装位于 tmpfs，**重启后消失**。
 
 CI 配置包含 x86_64 Linux、原生 ARM64 Linux 和 ARM64 macOS 的相同契约／安装调用，以及
-Swift 向量重生成和 XCFramework 构建；远端执行结果与上述本地／实机证据分开记录。
+Swift 向量重生成和 XCFramework 构建，以及 Android JNI／AAR。
+[SDK 源码 16c43fa 的 CI](https://github.com/openduo/pocket-rs/actions/runs/43675723689) 与
+[Android 接入 4208864 的 CI](https://github.com/openduo/pocket-android/actions/runs/43675746653) 均通过。
+后续发布说明提交不修改可执行源码。
 
 仍需后续接入的范围：
 
 - Android 已通过 JNI 使用 Rust 的请求／配对／分帧／实时校验／Ambient／重试所有者，UI、SQLite
   事务、凭据、网络、音频资源和任务生命周期留在平台层。不会并行启动 Rust 聚合 Session。
-  完整数据库／产品状态迁移不属于本次协议接入；iOS APP 接入仍待完成。
+  SessionViewer 的会话 watch／通知命令序列化及 Passport／Sight／地理相关协议仍保留既有实现，
+  不在这次 Chat／Ambient 接入验收范围。完整数据库／产品状态迁移和 iOS APP 接入仍待后续推进。
 - Linux 参考端使用预编码包文件；麦克风／扬声器驱动、重采样、设备 Opus 编解码、AEC、唤醒词和
   免按键交互属于平台接入。协议验收不等于真实房间识别和出声验收。
 - Push、Sight 延续暂缓；Passport BLE、地理监控、Markdown／UI 等不在本轮库中。未知的新增事件

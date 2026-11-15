@@ -54,11 +54,15 @@ CI runs the same contracts/consumer packaging on x86_64 Linux, native ARM64 Linu
 Apple also regenerates Swift vectors and builds the XCFramework; Android builds the dual-ABI
 JNI/AAR. Java JNI consumers execute on native Linux hosts, and E2 evidence is recorded separately. Runner labels follow
 [GitHub's architecture reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners).
-CI execution is recorded separately from local/physical evidence in the release.
+Verified remote runs: [SDK executable source 16c43fa](https://github.com/openduo/pocket-rs/actions/runs/43675723689)
+and [Android integration 4208864](https://github.com/openduo/pocket-android/actions/runs/43675746653)
+both pass. The subsequent release documentation commit changes no executable source.
 
 ## Remaining product integration
 
-- Android uses shared Rust wire/framing/Ambient/retry owners through JNI. Existing UI, SQLite
+- Android uses shared Rust wire/framing/Ambient/retry owners through JNI. SessionViewer session-watch/
+  notification command serialization and Passport/Sight/location feature protocols retain their
+  existing Android implementations; these are outside this Chat/Ambient adoption gate. Existing UI, SQLite
   transactions, credential/network/audio resources and platform task lifetimes remain Android-owned.
   It does not run the aggregate Rust Session beside those owners. Full database/product migration
   is outside this protocol integration. iOS app integration remains future work.

@@ -30,6 +30,10 @@ protocol session. Both routes call the same core implementations. Component hand
 stream completion/cancellation or owning-component disposal; process-wide owners match the app's
 controller lifetime. Results are copied into Java arrays and freed once in JNI, including errors.
 
+SessionViewer session-watch/notification command serialization and Passport/Sight/location feature
+protocols remain in their existing Android owners. This milestone migrates the listed Chat/Ambient
+protocol concerns; it does not claim that every Android feature now runs in Rust.
+
 ## Build
 
 Install Rust 1.100.0 and targets `aarch64-linux-android` / `x86_64-linux-android`, JDK17 and Android

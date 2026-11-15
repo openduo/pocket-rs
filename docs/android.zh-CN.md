@@ -26,6 +26,9 @@ UI、网络执行、SQLite 事务、凭据、音频焦点、麦克风、编解�
 副作用，两种入口复用相同核心实现。流所有者在完成／取消时关闭；APP 全局所有者与 controller
 同寿命。JNI 将结果复制成 Java 字节数组后，统一释放 Rust 缓冲，错误路径也同样释放。
 
+SessionViewer 的会话 watch／通知命令序列化及 Passport／Sight／地理相关协议仍留在原 Android
+所有者中。本次完成的是表中列出的 Chat／Ambient 协议，不能表述为每项 Android 功能均已改用 Rust。
+
 构建需要 Rust 1.100.0、两个 Android target、JDK17 和固定 NDK `28.2.13676358`。
 `scripts/build-android.sh` 只构建 FFI 和 JNI；`python3 scripts/package-android.py` 生成标准
 双 ABI AAR、混淆保留规则、许可证和含源码／说明的 SDK 包。普通 Android 工程可用
