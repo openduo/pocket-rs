@@ -8,11 +8,15 @@ sdk_version="$(python3 -c 'import tomllib; print(tomllib.load(open("Cargo.toml",
 test "$(uname -s):$(uname -m)" = Darwin:arm64
 export MACOSX_DEPLOYMENT_TARGET=14.0
 cargo build --workspace --release --locked
-install_name_tool -id '@rpath/libpocket_core.dylib' target/release/libpocket_core.dylib
+apple_build="$project_dir/.build/apple-release"
+mkdir -p "$apple_build"
+# Keep relocation edits outside Cargo's managed outputs (another consumer may rebuild them).
+cp target/release/pocket target/release/libpocket_core.a target/release/libpocket_core.dylib "$apple_build/"
+install_name_tool -id '@rpath/libpocket_core.dylib' "$apple_build/libpocket_core.dylib"
 cc -std=c11 -Wall -Wextra -Werror -O2 -Iinclude examples/c/consumer.c \
-    -Ltarget/release -lpocket_core -Wl,-rpath,@executable_path/../lib \
-    -o target/release/pocket-c-smoke
-python3 scripts/package.py --target aarch64-apple-darwin --build-dir target/release
+    -L"$apple_build" -lpocket_core -Wl,-rpath,@executable_path/../lib \
+    -o "$apple_build/pocket-c-smoke"
+python3 scripts/package.py --target aarch64-apple-darwin --build-dir "$apple_build"
 prefix="$project_dir/.build/install-macos"
 "dist/pocket-rs-$sdk_version-aarch64-apple-darwin/install.sh" --prefix "$prefix"
 "$prefix/bin/pocket-c-smoke"
