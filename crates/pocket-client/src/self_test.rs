@@ -74,7 +74,9 @@ impl Fixture {
                 }
             }
             for child in children {
-                let _ = child.join();
+                if child.join().is_err() {
+                    err.lock().unwrap().push("Fixture worker panicked".into());
+                }
             }
         });
         Ok(Self {
@@ -84,6 +86,15 @@ impl Fixture {
             errors,
             worker: Some(worker),
         })
+    }
+    fn finish(&mut self) -> Result<()> {
+        self.stop.store(true, Ordering::Release);
+        if let Some(worker) = self.worker.take() {
+            worker
+                .join()
+                .map_err(|_| Error::protocol("Fixture accept worker panicked"))?;
+        }
+        Ok(())
     }
 }
 impl Drop for Fixture {
@@ -232,15 +243,26 @@ fn serve(mut stream: TcpStream, log: &Arc<Mutex<Vec<Observed>>>) -> Result<()> {
                 json!({"type":"fixture_done"}).to_string().into(),
             ))
             .map_err(|_| Error::protocol("Fixture completion write failed"))?;
+        let mut final_unmute = false;
         loop {
             match socket.read() {
                 Ok(tungstenite::Message::Close(_)) | Err(tungstenite::Error::ConnectionClosed) => {
                     break;
                 }
+                Ok(tungstenite::Message::Text(text)) => {
+                    let frame: Value = serde_json::from_str(&text)?;
+                    if frame["type"] == "mute" && frame["on"] == true {
+                        final_unmute = true;
+                    }
+                }
                 Ok(_) => {}
-                Err(_) => break,
+                Err(_) => return Err(Error::protocol("Fixture close handshake failed")),
             }
         }
+        check(
+            final_unmute,
+            "Final microphone restore is written before socket close",
+        )?;
         return Ok(());
     }
     let mut bytes = Vec::new();
@@ -376,7 +398,7 @@ fn send_socket(socket: &mut Socket, effects: Vec<Effect>) -> Result<()> {
 }
 
 pub fn run() -> Result<Value> {
-    let fixture = Fixture::start()?;
+    let mut fixture = Fixture::start()?;
     let network = Network::new()?;
     let paired = network.request(&fixture.endpoint, &api::pair_request("fixture-code")?, 5000)?;
     let device = PairedDevice::decode(&paired.body)?;
@@ -642,6 +664,7 @@ pub fn run() -> Result<Value> {
         "Ambient playback and local interruption reach server confirmation",
     )?;
     send_socket(&mut socket, session.dispatch(Command::Disconnect)?)?;
+    fixture.finish()?;
     let observations = fixture
         .observations
         .lock()

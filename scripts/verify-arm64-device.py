@@ -44,4 +44,5 @@ shell(f"{prefix}/bin/pocket-c-smoke", save="installed-c.log")
 command = f"cc -std=c11 -Wall -Wextra -Werror -I{prefix}/include {prefix}/share/pocket-rs/examples/c/consumer.c -L{prefix}/lib -lpocket_core -Wl,-rpath,{prefix}/lib -o {prefix}/bin/pocket-c-native && {prefix}/bin/pocket-c-native"
 shell(command, save="native-c.log")
 shell(f"readelf -h {prefix}/lib/libpocket_core.so; readelf -d {prefix}/lib/libpocket_core.so; ldd {prefix}/lib/libpocket_core.so; sha256sum {prefix}/lib/libpocket_core.so {prefix}/bin/pocket; df -h /tmp /var", save="elf-and-dependencies.log")
+shell("rm -rf " + shlex.quote(stage))
 print(json.dumps({"status": "pass", "os": "linux", "arch": machine, "prefix": args.prefix, "volatile_installation": True, "checks": ["bundle_checksums", "installed_native_protocol_loopback", "installed_dynamic_library", "consumer_compiled_on_physical_target", "ELF_dependencies"], "private_evidence": str(evidence.relative_to(ROOT))}))

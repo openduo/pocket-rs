@@ -4,6 +4,7 @@
 set -euo pipefail
 project_dir="$(cd -- "$(dirname -- "$0")/.." && pwd)"
 cd "$project_dir"
+sdk_version="$(python3 -c 'import tomllib; print(tomllib.load(open("Cargo.toml", "rb"))["workspace"]["package"]["version"])')"
 test "$(uname -s):$(uname -m)" = Darwin:arm64
 export MACOSX_DEPLOYMENT_TARGET=14.0
 cargo build --workspace --release --locked
@@ -13,7 +14,7 @@ cc -std=c11 -Wall -Wextra -Werror -O2 -Iinclude examples/c/consumer.c \
     -o target/release/pocket-c-smoke
 python3 scripts/package.py --target aarch64-apple-darwin --build-dir target/release
 prefix="$project_dir/.build/install-macos"
-dist/pocket-rs-0.1.0-aarch64-apple-darwin/install.sh --prefix "$prefix"
+"dist/pocket-rs-$sdk_version-aarch64-apple-darwin/install.sh" --prefix "$prefix"
 "$prefix/bin/pocket-c-smoke"
 swiftc -parse-as-library -I "$prefix/include" -L "$prefix/lib" -lpocket_core \
     -Xlinker -rpath -Xlinker "$prefix/lib" examples/swift/Consumer.swift \
@@ -28,5 +29,5 @@ xcodebuild -create-xcframework \
     -library target/aarch64-apple-ios-sim/release/libpocket_core.a -headers include \
     -output .build/PocketCore.xcframework
 cp LICENSE NOTICE THIRD_PARTY_NOTICES.md THIRD_PARTY_DEPENDENCIES.json THIRD_PARTY_LICENSES.txt .build/PocketCore.xcframework/
-COPYFILE_DISABLE=1 tar -czf dist/PocketCore-0.1.0-apple-xcframework.tar.gz -C .build PocketCore.xcframework
-(cd dist && shasum -a 256 PocketCore-0.1.0-apple-xcframework.tar.gz > PocketCore-0.1.0-apple-xcframework.tar.gz.sha256)
+COPYFILE_DISABLE=1 tar -czf "dist/PocketCore-$sdk_version-apple-xcframework.tar.gz" -C .build PocketCore.xcframework
+(cd dist && shasum -a 256 "PocketCore-$sdk_version-apple-xcframework.tar.gz" > "PocketCore-$sdk_version-apple-xcframework.tar.gz.sha256")

@@ -80,10 +80,11 @@ source, with [provenance and hashes](tests/fixtures/ios-provenance.json). Regene
 python3 scripts/generate-upstream-vectors.py --ios /path/to/pocket-ios --check
 ```
 
-Android and iOS application migration remain subsequent integration work. The SDK preserves their
-wire protocol and offers a C ABI/static-library route for Swift/JNI, while UI, audio sessions,
-hardware routing, system Tailscale and secret storage remain platform-owned. Push and Sight remain
-deferred. See the migration plan for the complete remaining scope; no parity percentage is claimed.
+Android now adopts the shared protocol through JNI for Chat request construction, pairing, voice
+framing, live validation, Ambient input/output and retry rules. Existing Android networking, storage,
+UI and audio resources stay platform-owned; its application coordination does not dispatch a second
+Rust Session. See [Android integration](docs/android.md) for exact evidence and ownership. iOS app
+integration remains future work through the tested C module/XCFramework. Push and Sight remain deferred. See the migration plan for the complete remaining scope; no parity percentage is claimed.
 
 Licensed under [FSL-1.1-Apache-2.0](LICENSE); see [NOTICE](NOTICE) and
 [third-party notices](THIRD_PARTY_NOTICES.md).

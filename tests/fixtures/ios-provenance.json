@@ -1,6 +1,6 @@
 {
   "harness_sha256": {
-    "Generate.swift": "a0d5146048ade5170de9b88e8c14f86735383db3d0954e1d29146cc7e878fb95",
+    "Generate.swift": "ed8bca16d13dfc97215087629fd4b344131b931c3a1d442c9bd4528bf8134ea1",
     "Support.swift": "ba11e25dadb9f3d26735329b025aa46ee3fc0c5519fe4d3599e8183a86e95f1e"
   },
   "repository": "https://github.com/openduo/pocket-ios",

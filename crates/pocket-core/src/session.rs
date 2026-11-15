@@ -659,7 +659,25 @@ impl Session {
                                 }
                             }
                         }
-                        let audio = self.ambient.frame(&frame, now_ms)?;
+                        let audio = match self.ambient.frame(&frame, now_ms) {
+                            Ok(audio) => audio,
+                            Err(error)
+                                if matches!(
+                                    error.code.as_str(),
+                                    "unsupported_audio_rate" | "unsupported_media"
+                                ) =>
+                            {
+                                self.wanted = false;
+                                self.ambient_wanted = false;
+                                out.extend(self.retire());
+                                out.push(Effect::Capture { enabled: false });
+                                out.push(Self::emit(
+                                    json!({"type":"protocol_error", "code":error.code}),
+                                ));
+                                return Ok(out);
+                            }
+                            Err(error) => return Err(error),
+                        };
                         out.extend(self.audio(audio));
                         out.push(Self::emit(frame));
                     }

@@ -81,3 +81,33 @@ adapters supply permissions/background policy while preserving already-started p
 It constructs authenticated, origin-relative data requests without executing them. Pairing and
 health requests omit authorization. Input JSON is bounded at 24 MiB, while individual live Opus
 packets are at most 1,275 bytes (1,276 with media-v1 kind byte).
+
+Additional stateless operations are `endpoint`, `query`, `decode_state`, `decode_live`, `uploaded`,
+`voice_retry` and `redial`. Retry calls return opaque serialized state plus remaining/delay values;
+the platform supplies monotonic time. `uploaded` takes the host-computed body digest and the server
+frame; admission and canonicalization remain shared. No operation performs platform work.
+
+## Incremental adoption and JNI
+
+`pocket_request_build` accepts `{config,request}` JSON plus an optional borrowed binary body.
+Voice/upload requests validate it and return `input_body:true` with an empty JSON body; the host
+sends the same original bytes. JSON is capped at 24 MiB; raw upload input is capped at 64 MiB and
+voice additionally retains its 16 MiB protocol cap. This avoids serializing or cloning large files
+just to construct headers. Text/other requests return their small body in the result.
+
+`pocket_component_create` accepts `type:ambient_input`, `ambient_output` or `packet_stream`.
+Dispatch returns `{result,state}`; snapshots contain no credentials. Input commands include
+`opened`, `stopped`, `packet` (encoder readiness/room/AEC), `meta`, `frame`, `takeover`, `press`,
+`mic_frame` and `release`. Output commands include `speech`, `read`, `stop`, `received`, `completed`,
+`expire`, `accepts_stop`, `interrupted`, `played` and `skipped`. Commands carry the supplied
+monotonic `now_ms`; output `played` carries a declaration key and absolute hardware ms. This
+adapter preserves the same core clock for platforms without per-block completion callbacks.
+Packet commands use `finish`; binary kind 0 feeds incremental chunks, 1 frames input uplink,
+2 unwraps media downlink and 3 validates an entire voice body. Close each component explicitly.
+There are at most 256 combined session/component handles. Do not run Session and granular owners
+as independent executors of the same behavior.
+
+The [Java JNI binding](../bindings/java/src/main/java/dev/openduo/pocket/protocol/NativeCore.java)
+borrows arrays during the call, makes one Java result copy and always frees the Rust result before
+returning. Consumer keep rules preserve JNI names/constructors when Android minification is enabled.
+The C shim owns no protocol state, networking, credentials, audio devices or Android lifecycle.

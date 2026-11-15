@@ -260,6 +260,20 @@ impl Api {
         place: Option<&str>,
         state: Option<&RoomState>,
     ) -> Result<Request> {
+        let mut request = self.voice_head(id, packets, source, surface, place, state)?;
+        request.body = packets.into();
+        Ok(request)
+    }
+    /// Validate borrowed voice bytes and construct headers without a second owned body copy.
+    pub fn voice_head(
+        &self,
+        id: &str,
+        packets: &[u8],
+        source: &str,
+        surface: Surface,
+        place: Option<&str>,
+        state: Option<&RoomState>,
+    ) -> Result<Request> {
         validate_voice(packets)?;
         if !matches!(source, "phone" | "passport") {
             return Err(Error::invalid("Unknown voice source"));
@@ -273,7 +287,7 @@ impl Api {
             crate::audio::VOICE_CONTENT_TYPE.into(),
         );
         headers.insert("X-Voice-Source".into(), source.into());
-        self.request("POST", self.path("messages"), headers, packets.into())
+        self.request("POST", self.path("messages"), headers, vec![])
     }
     pub fn speech(&self, text: &str) -> Result<Request> {
         self.request(
@@ -290,17 +304,28 @@ impl Api {
         bytes: &[u8],
         state: Option<&RoomState>,
     ) -> Result<Request> {
+        let mut request = self.upload_head(name, mime, bytes.len(), state)?;
+        request.body = bytes.into();
+        Ok(request)
+    }
+    pub fn upload_head(
+        &self,
+        name: &str,
+        mime: &str,
+        len: usize,
+        state: Option<&RoomState>,
+    ) -> Result<Request> {
         if name.is_empty() || mime.is_empty() {
             return Err(Error::invalid("Missing attachment metadata"));
         }
         if let Some(state) = state {
-            state.admit_upload(bytes.len())?;
+            state.admit_upload(len)?;
         }
         self.request(
             "POST",
             format!("{}&name={}", self.path("upload"), query(name)),
             BTreeMap::from([("Content-Type".into(), mime.into())]),
-            bytes.into(),
+            vec![],
         )
     }
     pub fn attachment(&self, a: &Attachment) -> Result<Request> {
@@ -410,15 +435,23 @@ impl RoomState {
     }
 }
 
-pub fn uploaded(mut attachment: Attachment, bytes: &[u8], response: &[u8]) -> Result<Attachment> {
+pub fn uploaded(attachment: Attachment, bytes: &[u8], response: &[u8]) -> Result<Attachment> {
     let v: Value = serde_json::from_slice(response)?;
+    let digest = format!("{:x}", Sha256::digest(bytes));
+    uploaded_digest(attachment, &digest, &v)
+}
+
+/// The platform can hash a large file without marshaling it through JSON a second time.
+pub fn uploaded_digest(mut attachment: Attachment, digest: &str, v: &Value) -> Result<Attachment> {
+    if digest.len() != 64 || !digest.bytes().all(|b| b.is_ascii_hexdigit()) {
+        return Err(Error::invalid("Invalid body digest"));
+    }
     let path = v["path"]
         .as_str()
         .filter(|s| !s.is_empty())
         .ok_or_else(|| Error::protocol("Upload acknowledgement lacks path"))?;
-    let digest = format!("{:x}", Sha256::digest(bytes));
     if let Some(supplied) = v["sha256"].as_str().filter(|s| !s.is_empty())
-        && !supplied.eq_ignore_ascii_case(&digest)
+        && !supplied.eq_ignore_ascii_case(digest)
     {
         return Err(Error::new(
             "digest_mismatch",
@@ -426,7 +459,7 @@ pub fn uploaded(mut attachment: Attachment, bytes: &[u8], response: &[u8]) -> Re
         ));
     }
     attachment.path = Some(path.into());
-    attachment.sha256 = Some(digest);
+    attachment.sha256 = Some(digest.to_ascii_lowercase());
     Ok(attachment)
 }
 
@@ -448,13 +481,18 @@ pub enum RequestCommand {
         attachments: Vec<Attachment>,
         #[serde(default)]
         surface: Surface,
+        #[serde(default)]
+        place: Option<String>,
     },
     Voice {
         id: String,
+        #[serde(default)]
         body: Vec<u8>,
         source: String,
         #[serde(default)]
         surface: Surface,
+        #[serde(default)]
+        place: Option<String>,
     },
     Speech {
         text: String,
@@ -462,6 +500,7 @@ pub enum RequestCommand {
     Upload {
         name: String,
         mime: String,
+        #[serde(default)]
         body: Vec<u8>,
     },
     Attachment {
@@ -488,13 +527,15 @@ impl RequestCommand {
                 text,
                 attachments,
                 surface,
-            } => api.text(&id, &text, &attachments, surface, None),
+                place,
+            } => api.text(&id, &text, &attachments, surface, place.as_deref()),
             Self::Voice {
                 id,
                 body,
                 source,
                 surface,
-            } => api.voice(&id, &body, &source, surface, None, None),
+                place,
+            } => api.voice(&id, &body, &source, surface, place.as_deref(), None),
             Self::Speech { text } => api.speech(&text),
             Self::Upload { name, mime, body } => api.upload(&name, &mime, &body, None),
             Self::Attachment { attachment } => api.attachment(&attachment),

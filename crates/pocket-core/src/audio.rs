@@ -122,6 +122,8 @@ pub struct Ambient {
     pub room: String,
     pub conn: Option<String>,
     pub role: Option<String>,
+    pub room_state: Option<String>,
+    pub meta_seen: bool,
     pub hello_sent: bool,
     pub capturing: bool,
     pub framed: bool,
@@ -147,6 +149,10 @@ pub struct Ambient {
     completed_ms: Option<u64>,
     #[serde(skip)]
     last_progress_ms: u64,
+    #[serde(skip)]
+    hardware_ms: u64,
+    #[serde(skip)]
+    skipped_samples: u64,
 }
 impl Ambient {
     pub fn new(room: &str) -> Self {
@@ -154,6 +160,8 @@ impl Ambient {
             room: room.into(),
             conn: None,
             role: None,
+            room_state: None,
+            meta_seen: false,
             hello_sent: false,
             capturing: false,
             framed: false,
@@ -171,6 +179,8 @@ impl Ambient {
             received_samples: 0,
             completed_ms: None,
             last_progress_ms: 0,
+            hardware_ms: 0,
+            skipped_samples: 0,
         }
     }
     pub fn muted(&self) -> bool {
@@ -185,6 +195,8 @@ impl Ambient {
     pub fn socket_opened(&mut self) {
         self.conn = None;
         self.role = None;
+        self.room_state = None;
+        self.meta_seen = false;
         self.hello_sent = false;
         self.framed = false;
         self.mic_may_be_off = false;
@@ -222,15 +234,14 @@ impl Ambient {
     }
     /// Queue this before retiring the transport; the room's mic switch outlives its socket.
     pub fn release_capture(&mut self) -> Vec<AudioAction> {
-        let out = if self.hello_sent && self.mic_may_be_off {
-            vec![send(json!({"type":"mute", "on":true}))]
-        } else {
-            vec![]
-        };
+        let out = self.microphone_restore().into_iter().map(send).collect();
         self.capturing = false;
         self.hello_sent = false;
         self.mic_may_be_off = false;
         out
+    }
+    pub fn microphone_restore(&self) -> Option<Value> {
+        (self.hello_sent && self.mic_may_be_off).then(|| json!({"type":"mute", "on":true}))
     }
     pub fn press(&mut self, source: &str, active: bool) -> Vec<AudioAction> {
         let before = self.muted();
@@ -266,6 +277,8 @@ impl Ambient {
         self.last_reported = None;
         self.completed_ms = None;
         self.received_samples = 0;
+        self.hardware_ms = 0;
+        self.skipped_samples = 0;
         vec![AudioAction::ClearPlayback, AudioAction::ResetDecoder]
     }
     fn stop_read(&mut self) -> Vec<AudioAction> {
@@ -301,6 +314,7 @@ impl Ambient {
     pub fn frame(&mut self, frame: &Value, now_ms: u64) -> Result<Vec<AudioAction>> {
         match frame["type"].as_str().unwrap_or_default() {
             "meta" => {
+                self.meta_seen = true;
                 if let Some(media) = frame.get("media") {
                     if media.as_u64() != Some(1) {
                         return Err(Error::new(
@@ -316,6 +330,9 @@ impl Ambient {
                 }
                 if let Some(role) = frame["role"].as_str() {
                     self.role = Some(role.into());
+                }
+                if let Some(state) = frame["state"].as_str() {
+                    self.room_state = Some(state.into());
                 }
                 if frame["state"] == "unowned" {
                     self.role = None;
@@ -356,17 +373,14 @@ impl Ambient {
                 self.receiving = true;
                 self.completed_ms = None;
                 self.received_samples = 0;
+                self.hardware_ms = 0;
+                self.skipped_samples = 0;
                 self.last_progress_ms = now_ms;
                 out.push(AudioAction::ResetDecoder);
                 Ok(out)
             }
             "stop_audio" => {
-                if self.reading
-                    || self.current.as_deref().is_some_and(|s| s.starts_with('s'))
-                    || frame
-                        .get("speech_id")
-                        .is_some_and(|v| v.as_str() != self.current.as_deref())
-                {
+                if !self.accepts_stop(frame) {
                     return Ok(vec![]);
                 }
                 Ok(self.clear())
@@ -485,5 +499,53 @@ impl Ambient {
         {
             self.receiving = false;
         }
+    }
+
+    pub fn accepts_stop(&self, frame: &Value) -> bool {
+        !self.reading
+            && !self.current.as_deref().is_some_and(|s| s.starts_with('s'))
+            && !frame
+                .get("speech_id")
+                .is_some_and(|v| v.as_str() != self.current.as_deref())
+    }
+
+    /// Adapter for platforms reporting an absolute hardware position rather than per-block drains.
+    pub fn output_position(
+        &mut self,
+        key: u64,
+        ms: u64,
+        skipped_samples: u64,
+        reports: bool,
+    ) -> Option<Value> {
+        if key != self.generation || self.current.is_none() {
+            return None;
+        }
+        self.hardware_ms = self.hardware_ms.max(ms);
+        if !self.reading {
+            self.skipped_samples = self.skipped_samples.saturating_add(skipped_samples);
+        }
+        self.played_ms = self
+            .hardware_ms
+            .saturating_add(self.skipped_samples.saturating_mul(1000) / SAMPLE_RATE);
+        if !reports || self.reading || self.played_ms <= self.last_reported.unwrap_or(0) {
+            return None;
+        }
+        self.last_reported = Some(self.played_ms);
+        Some(json!({"type":"played", "speech_id":self.current, "ms":self.played_ms}))
+    }
+
+    pub fn stop_output(&mut self) {
+        self.reading = false;
+        self.clear();
+    }
+
+    pub fn output_read(&mut self, id: &str, now_ms: u64) -> Result<()> {
+        self.frame(
+            &json!({"type":"speech", "speech_id":format!("read:{id}")}),
+            now_ms,
+        )?;
+        self.reading = true;
+        self.receiving = false;
+        Ok(())
     }
 }

@@ -2,8 +2,8 @@
 
 English · [简体中文](status.zh-CN.md)
 
-Updated 2026-11-15. The 0.1.0 protocol/shared SDK passes local native acceptance. Android/iOS
-application migration remains subsequent work. Public source/release: `openduo/pocket-rs`.
+Updated 2026-11-15. The 0.1.0 protocol/shared SDK passes local native acceptance. Android protocol integration is included; iOS
+application integration remains future work. Public source/release: `openduo/pocket-rs`.
 
 Implemented: validated pairing/credentials, origin-bound API request construction, state/history/
 messages/attachments/speech contracts, bounded incremental Opus framing, cursor/live lifecycle,
@@ -15,11 +15,23 @@ Compatibility uses executed original iOS sources at the pinned migration revisio
 Focused Rust regressions cover malformed/truncated framing, authentication boundaries, persistence,
 immutable retries/deadlines, stale callbacks, microphone restoration and playback reception/drain.
 
+## Android adoption
+
+The current Pocket Android source adopts the shared protocol through JNI, with its Java protocol
+reducers replaced rather than run beside Rust. Host JVM contracts load the real native library:
+2,622 existing assertions pass. The public-identity dual-ABI Release APK is installed on E2 without
+uninstalling, clearing data, pairing again or creating a new Tailscale node. The bounded device
+check passes 16 Rust/ART assertions plus 22 Try application-coordination assertions. A separate
+15-assertion screen-off check passes with silent native Opus/AudioTrack, completion/drain,
+service/wake-lock cleanup and settings restoration. The original real room returns Online.
+No microphone or actual room test content was used. See [integration ownership](android.md).
+The Android published Preview 2 APK is unchanged; this evidence covers the updated source/local APK.
+
 ## Executed acceptance
 
 | Gate | Actual evidence |
 | --- | --- |
-| Rust automation | 17 test cases pass on macOS ARM64 and native Linux ARM64, including the Swift-vector suites and real loopback transport; rustfmt and warning-free Clippy pass |
+| Rust automation | 19 test cases pass on macOS ARM64 and native Linux ARM64, including the Swift-vector suites and real loopback transport; rustfmt and warning-free Clippy pass |
 | Original iOS vectors | Regenerating with pinned, unmodified Swift sources produces byte-identical committed fixtures; no SwiftPM/vendor framework required |
 | Native build | Pinned `rust:1.100.0-bookworm` ARM64 image, actual aarch64 kernel/userspace, locked dependencies; shared/static libraries and reference client built |
 | Physical Linux installation | Ubuntu 26.04.1 aarch64, glibc 2.43, 485 MiB memory, read-only root; bundle installed at `/var/tmp/pocket-rs-0.1.0` without changing system storage |
@@ -30,22 +42,26 @@ immutable retries/deadlines, stale callbacks, microphone restoration and playbac
 | iOS preparation | Static archives built for `aarch64-apple-ios` and `aarch64-apple-ios-sim`, combined into an XCFramework; no original iOS app/device migration is claimed |
 
 The physical shared library SHA-256 is
-`60edf68be47a908be596d9a6c456ed8b242c28e04bfd853d023414e4870014c3`.
+`4646dd7bbb638d10617b86371740a9f64d9f75074ba2c33a3e4ac9ea631bb9a3`.
 The installed CLI SHA-256 is
-`8493e9c908a2faca03cbaf35c8cd0c644795607081ba9e0091a9989e96d14d74`.
+`18b3d2513b5b7745013d9ba37a964478219f2d372e10a7f46656d0852a427490`.
 Raw device logs remain ignored; public evidence excludes hostnames, serials, real room ids and tokens.
-The tests use prepared Opus bytes and explicitly simulated hardware completion, never a microphone,
-speaker or external room. Installation is in tmpfs and will disappear on reboot.
+Linux protocol tests use prepared Opus bytes and explicitly simulated hardware completion, never a
+microphone, speaker or external room. Android evidence uses prepared Try data and silent native
+decode/playback; it is separate from prior human-speech acceptance. Installation is in tmpfs and will disappear on reboot.
 
 CI runs the same contracts/consumer packaging on x86_64 Linux, native ARM64 Linux and ARM64 macOS;
-Apple also regenerates Swift vectors and builds the XCFramework. Runner labels follow
+Apple also regenerates Swift vectors and builds the XCFramework; Android builds the dual-ABI
+JNI/AAR. Java JNI consumers execute on native Linux hosts, and E2 evidence is recorded separately. Runner labels follow
 [GitHub's architecture reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners).
 CI execution is recorded separately from local/physical evidence in the release.
 
 ## Remaining product integration
 
-- Android and iOS applications currently retain their existing engines. JNI/Swift application
-  integration, storage migration and actual app background/audio acceptance are subsequent work.
+- Android uses shared Rust wire/framing/Ambient/retry owners through JNI. Existing UI, SQLite
+  transactions, credential/network/audio resources and platform task lifetimes remain Android-owned.
+  It does not run the aggregate Rust Session beside those owners. Full database/product migration
+  is outside this protocol integration. iOS app integration remains future work.
 - The Linux reference client uses pre-encoded packet files. Microphone/speaker drivers, resampling,
   Opus device codecs, acoustic AEC, wake words and hands-free UI are not part of this protocol SDK.
 - Native loopback acceptance proves protocol execution and OS socket use, not actual room-service

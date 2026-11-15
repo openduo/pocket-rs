@@ -29,7 +29,7 @@ for path in (ROOT / "include").iterdir():
     shutil.copy2(path, bundle / "include" / path.name)
 for path in ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_DEPENDENCIES.json", "THIRD_PARTY_LICENSES.txt", "README.md", "README.zh-CN.md"]:
     shutil.copy2(ROOT / path, bundle / "share/pocket-rs" / path)
-for directory in ["examples", "docs"]:
+for directory in ["examples", "docs", "bindings"]:
     shutil.copytree(ROOT / directory, bundle / "share/pocket-rs" / directory, dirs_exist_ok=True)
 shutil.copy2(ROOT / "scripts/install.sh", bundle / "install.sh")
 (bundle / "install.sh").chmod(0o755)

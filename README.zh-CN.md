@@ -39,5 +39,7 @@ cd pocket-rs-0.1.0-aarch64-unknown-linux-gnu
 和向量摘要。核心沿用既有协议，也保留 Android 的最终恢复麦克风、取消旧回调和锁屏播放生命周期修复。
 版本与后续 APP 接入步骤见[迁移计划](docs/migration.zh-CN.md)。
 
-本轮提供共享库，并不替换现有 Android／iOS APP。Push、Sight 延续暂缓；硬件驱动、声学 AEC、
-唤醒词及完整 APP 集成属于后续工作。代码许可为 [FSL-1.1-Apache-2.0](LICENSE)。
+Android 现已通过 JNI 接入共享协议：Chat 请求、配对、语音分帧、实时事件校验、Ambient 输入／播放
+和重试规则实际调用 Rust。UI、网络、数据库事务和硬件生命周期继续由 Android 管理，详见
+[Android 接入](docs/android.zh-CN.md)。iOS APP 仍待接入，已提供 C module／XCFramework。
+Push、Sight 延续暂缓；Linux 设备音频驱动、声学 AEC、唤醒词和免按键交互仍属后续产品接入。代码许可为 [FSL-1.1-Apache-2.0](LICENSE)。

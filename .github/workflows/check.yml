@@ -26,11 +26,17 @@ jobs:
         run: |
           cc -std=c11 -Wall -Wextra -Werror -Iinclude examples/c/consumer.c -Ltarget/release -lpocket_core -Wl,-rpath,'$ORIGIN/../lib' -o target/release/pocket-c-smoke
           case "$(uname -m)" in aarch64) target=aarch64-unknown-linux-gnu ;; x86_64) target=x86_64-unknown-linux-gnu ;; *) exit 1 ;; esac
+          sdk_version="$(python3 -c 'import tomllib; print(tomllib.load(open("Cargo.toml", "rb"))["workspace"]["package"]["version"])')"
           python3 scripts/package.py --target "$target" --build-dir target/release
-          dist/pocket-rs-0.1.0-"$target"/install.sh --prefix "$RUNNER_TEMP/pocket-rs"
+          "dist/pocket-rs-$sdk_version-$target/install.sh" --prefix "$RUNNER_TEMP/pocket-rs"
           "$RUNNER_TEMP/pocket-rs/bin/pocket" self-test
           "$RUNNER_TEMP/pocket-rs/bin/pocket-c-smoke"
       - run: python3 scripts/dependency-notices.py --check
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: scripts/build-jni-host.sh
       - uses: actions/upload-artifact@v4
         with:
           name: sdk-${{ matrix.runner }}
@@ -59,3 +65,23 @@ jobs:
           path: |
             dist/*.tar.gz
             dist/*.sha256
+  android:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.100.0
+          targets: aarch64-linux-android,x86_64-linux-android
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'ndk;28.2.13676358'
+          log-accepted-android-sdk-licenses: false
+      - run: scripts/build-android.sh
+      - run: python3 scripts/package-android.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdk-android-native
+          path: |
+            dist/*android-sdk.tar.gz*
+            dist/*.aar*

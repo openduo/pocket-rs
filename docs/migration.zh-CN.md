@@ -2,8 +2,8 @@
 
 [English](migration.md) · 简体中文
 
-本轮交付独立的、无 Go 依赖的房间协议库、可安装的共享库及 ARM64 Linux 原生验证，并为后续
-Android／iOS 接入保留稳定接口。界面、音频驱动和 Tailscale 登录继续由各平台提供。
+本轮交付独立的、无 Go 依赖的房间协议库、可安装的共享库及 ARM64 Linux 原生验证，并完成 Android 的协议接入及短真机验收，
+为后续 iOS 接入保留稳定接口。界面、音频驱动和 Tailscale 登录继续由各平台提供。
 
 参考源固定为 iOS `b9d91bb9b77a12c3e59e6f359af1e4537a4ded39` 和 Android
 `9f59814df246c22c6e01c18b0c150ea1e93f37b0`。保持客户端 API v2、16 kHz 单声道、20 ms
@@ -21,12 +21,17 @@ Android／iOS 接入保留稳定接口。界面、音频驱动和 Tailscale 登�
 4. ARM64 实机：在原生 aarch64 Linux 构建，将共享库、头文件和参考端安装到独立前缀；在物理 Linux
    设备运行本地 Chat／语音／Ambient 协议链路及独立 C 调用方，核对 ELF、依赖和摘要。设备根目录只读，
    本轮用临时目录验收，不改分区、挂载或开机服务，并明确重启后临时安装会消失。
-5. iOS 准备：macOS 上实际编译运行 Swift 调用方；有 SDK 时构建 iOS 静态库，提供后续集成方式。
+5. Android 接入：Chat 请求、配对、语音分帧、实时校验、Ambient 输入／播放与重试规则通过 JNI
+   实际使用 Rust。保留当前公开包名、签名、配对、Tailscale 节点和数据库；完成相关宿主契约、
+   双 ABI 构建与 E2 短联调后，才计为已接入。
+6. iOS 准备：macOS 上实际编译运行 Swift 调用方；有 SDK 时构建 iOS 静态库，提供后续集成方式。
    这些证据与 iOS APP 实际迁移分开记录。
-6. 发布：格式／lint／测试通过，完成打包、校验值及含原生 ARM64 的 CI，再在 `openduo/pocket-rs`
+7. 发布：格式／lint／测试通过，完成打包、校验值及含原生 ARM64 的 CI，再在 `openduo/pocket-rs`
    发布源码和版本资产。
 
-后续 Android 通过 JNI 逐个替换协议所有者，保留界面、硬件、凭据、数据库事务和前台服务；iOS
+Android 已通过 JNI 替换上述协议所有者，保留界面、硬件、凭据、数据库事务、应用任务调度和前台服务。
+Android 使用细粒度所有者，新的 Linux 宿主可使用聚合 Session，禁止同一链路同时驱动两者；见
+[Android 接入表](android.zh-CN.md)。iOS
 通过 C module／静态库／XCFramework 接入，保留 SwiftUI、AVAudioSession／Engine、Keychain
 及后台政策。任何阶段每个会话行为都只有一个实际执行者，避免新旧核心重复发消息或同时占用麦克风。
 

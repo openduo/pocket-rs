@@ -74,7 +74,7 @@ func runScenario(_ name: String, _ steps: [[String: Any]]) -> [String: Any] {
         }
         let packetSets: [[[UInt8]]] = [[], [[1]], [[1, 2, 3], [255, 0]], [Array(repeating: 0x55, count: 1275)]]
         let voice: [[String: Any]] = try packetSets.map { packets in
-            let note = VoiceNote(id: UUID(uuidString: "00000000-0000-4000-8000-000000000001")!, source: .phone, packets: packets.map(Data.init))
+            let note = VoiceNote(id: UUID(uuidString: "00000000-0000-4000-8000-000000000001")!, source: .phone, packets: packets.map { Data($0) })
             return ["packets": packets, "body": Array(try note.body()), "duration_ms": note.durationMs]
         }
         let surfaces: [[String: Any]] = [Surface.Display.phoneAwake, .phone, .passport, .later].flatMap { display in

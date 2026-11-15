@@ -24,6 +24,34 @@ fn config() -> SessionConfig {
 fn session() -> Session {
     Session::new(config()).unwrap()
 }
+
+#[test]
+fn incompatible_audio_retires_transport_and_capture() {
+    let mut s = session();
+    let generation = opened(&mut s);
+    s.dispatch(Command::SetAmbient { enabled: true }).unwrap();
+    let effects = s
+        .dispatch(Command::LiveText {
+            generation,
+            frame: json!({"type":"audio_params", "rate":48000}),
+            now_ms: 0,
+        })
+        .unwrap();
+    assert!(!s.snapshot().online && !s.snapshot().ambient_wanted);
+    assert!(
+        effects
+            .iter()
+            .any(|e| matches!(e, Effect::CloseLive { .. }))
+    );
+    assert!(
+        effects
+            .iter()
+            .any(|e| matches!(e, Effect::Capture { enabled: false }))
+    );
+    assert!(effects.iter().any(
+        |e| matches!(e, Effect::Event { event } if event["code"] == "unsupported_audio_rate")
+    ));
+}
 fn opened(s: &mut Session) -> u64 {
     match s.dispatch(Command::Connect).unwrap().last().unwrap() {
         Effect::OpenLive { generation, .. } => *generation,

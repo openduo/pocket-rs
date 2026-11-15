@@ -2,7 +2,9 @@
 
 Build a transport-independent Rust implementation of the DuoDuo room protocol, a stable C ABI,
 and a runnable native Linux reference client. The Android and iOS applications remain consumers
-to migrate later. Neither Go nor an embedded Tailscale node belongs in this library.
+to integrate through the ABI. Android Chat/Ambient protocol adoption and a bounded E2 check are
+required by the user's latest completion gate; iOS application integration remains future work.
+Neither Go nor an embedded Tailscale node belongs in this library.
 
 - Pin upstream iOS and Android source revisions. Generate compatibility fixtures by executing
   original upstream code; do not describe self-written expected values as upstream vectors.

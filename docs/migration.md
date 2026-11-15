@@ -3,7 +3,7 @@
 English · [简体中文](migration.zh-CN.md)
 
 The requested deliverable is an independent, Go-free room protocol library, installable shared
-library and native ARM64 Linux verification, with an interface suitable for later Android/iOS
+library and native ARM64 Linux verification, with actual Android protocol adoption and an interface suitable for future iOS
 adoption. This is not an Android UI rewrite or a replacement Tailscale implementation.
 
 ## Sources and compatibility
@@ -32,17 +32,22 @@ adoption. This is not an Android UI rewrite or a replacement Tailscale implement
    dedicated prefix, execute loopback Chat/voice/Ambient tests and a separately linked C consumer
    on the physical Linux target. Record ELF architecture, dependencies and checksums. The target
    root is read-only; its acceptance prefix is temporary and installation must not alter boot/storage.
-5. **Apple readiness:** compile and execute a Swift consumer on macOS against the C ABI; build
+5. **Android adoption:** wire the shared protocol into the existing Android app through JNI; retain
+   its public package, signature, pairing, database and Tailscale node. Require host contracts, dual-ABI
+   APK build and bounded E2 Chat/Ambient plus native playback acceptance before calling migration done.
+6. **Apple readiness:** compile and execute a Swift consumer on macOS against the C ABI; build
    an iOS static library when the SDK is available, provide packaging/integration instructions,
    and keep this separate from actual iOS app acceptance.
-6. **Release:** clean format/lint/tests, reproducible packaging, checksums, CI with native ARM64
+7. **Release:** clean format/lint/tests, reproducible packaging, checksums, CI with native ARM64
    coverage, public source and versioned assets under `openduo/pocket-rs` after the gates pass.
 
-## Subsequent application migration
+## Application ownership
 
-Android can replace one protocol/state owner at a time behind JNI. Preserve its existing Views,
-device adapters, credential storage, database transactions and foreground service. Each migrated
-owner has one authoritative implementation; two engines must not dispatch the same send/capture.
+Android now replaces its wire construction, pairing, packet framing, Ambient input/output, live
+validation and retry owners with Rust behind JNI. Existing Views, device adapters, credential storage,
+database transactions, OutboxSender/RoomLink platform scheduling and foreground service remain. The
+Rust aggregate Session is an alternative for new hosts; Android uses granular owners rather than
+starting a duplicate aggregate. See [integration map](android.md). Each behavior has one executor.
 
 iOS can import the C module from a static library/XCFramework, keeping SwiftUI, AVAudioSession,
 AVAudioEngine, Keychain and background policy. Preserve its storage schemas initially. Translate
