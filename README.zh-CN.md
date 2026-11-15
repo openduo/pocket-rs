@@ -24,8 +24,8 @@ target/release/pocket self-test
 下载安装包后指定独立目录：
 
 ```sh
-tar -xzf pocket-rs-0.1.0-aarch64-unknown-linux-gnu.tar.gz
-cd pocket-rs-0.1.0-aarch64-unknown-linux-gnu
+tar -xzf pocket-rs-0.1.1-aarch64-unknown-linux-gnu.tar.gz
+cd pocket-rs-0.1.1-aarch64-unknown-linux-gnu
 ./install.sh --prefix "$HOME/.local/pocket-rs"
 "$HOME/.local/pocket-rs/bin/pocket" self-test
 "$HOME/.local/pocket-rs/bin/pocket-c-smoke"
@@ -42,4 +42,7 @@ cd pocket-rs-0.1.0-aarch64-unknown-linux-gnu
 Android 现已通过 JNI 接入共享协议：Chat 请求、配对、语音分帧、实时事件校验、Ambient 输入／播放
 和重试规则实际调用 Rust。UI、网络、数据库事务和硬件生命周期继续由 Android 管理，详见
 [Android 接入](docs/android.zh-CN.md)。iOS APP 仍待接入，已提供 C module／XCFramework。
-Push、Sight 延续暂缓；Linux 设备音频驱动、声学 AEC、唤醒词和免按键交互仍属后续产品接入。代码许可为 [FSL-1.1-Apache-2.0](LICENSE)。
+[0.1.1 SDK 预览版](https://github.com/openduo/pocket-rs/releases/tag/v0.1.1)修正 Ambient 媒体下行：
+只有上行增加类型字节，接收的 Opus 包保持完整。Android Sight 协商与视频上传已在 Pocket Android
+单独通过短验收，相机仍由宿主拥有。Push 继续暂缓；Linux 设备音频驱动、声学 AEC、唤醒词和
+免按键交互仍属后续产品接入。代码许可为 [FSL-1.1-Apache-2.0](LICENSE)。

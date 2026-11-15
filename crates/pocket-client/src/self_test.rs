@@ -196,9 +196,7 @@ fn serve(mut stream: TcpStream, log: &Arc<Mutex<Vec<Observed>>>) -> Result<()> {
                 .map_err(|_| Error::protocol("Fixture speech write failed"))?;
         }
         socket
-            .send(tungstenite::Message::Binary(
-                [vec![1], OPUS.to_vec()].concat().into(),
-            ))
+            .send(tungstenite::Message::Binary(OPUS.to_vec().into()))
             .map_err(|_| Error::protocol("Fixture audio write failed"))?;
         loop {
             if let tungstenite::Message::Text(text) = socket

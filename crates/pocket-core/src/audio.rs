@@ -403,21 +403,13 @@ impl Ambient {
             _ => Ok(vec![]),
         }
     }
-    pub fn binary(&self, bytes: &[u8]) -> Result<Vec<AudioAction>> {
-        let packet = if self.framed {
-            match bytes.first() {
-                Some(1) => &bytes[1..],
-                Some(_) => {
-                    return Ok(vec![AudioAction::Notice {
-                        code: "unsupported_media_kind".into(),
-                    }]);
-                }
-                None => return Err(Error::protocol("Empty media frame")),
-            }
-        } else {
-            bytes
-        };
+    /// Media-v1 frames the uplink only; downlink remains one unchanged Opus packet.
+    pub fn downlink<'a>(&self, packet: &'a [u8]) -> Result<&'a [u8]> {
         validate_packet(packet)?;
+        Ok(packet)
+    }
+    pub fn binary(&self, bytes: &[u8]) -> Result<Vec<AudioAction>> {
+        let packet = self.downlink(bytes)?;
         if self.current.is_none() || self.reading {
             return Ok(if self.dropped || self.reading {
                 vec![]

@@ -2,13 +2,46 @@
 // SPDX-License-Identifier: FSL-1.1-Apache-2.0
 use pocket_core::{
     api::{self, Api, Attachment, RoomState, Surface},
-    audio::{Ambient, PacketStream, frame_packets},
+    audio::{Ambient, AudioAction, PacketStream, frame_packets},
     live::RowCursor,
     pairing::{DeviceScope, Endpoint, PairingLink, unauthorized},
     retry::VoiceRetry,
     session::{Command, Effect, Session, SessionConfig},
 };
 use serde_json::json;
+
+#[test]
+fn media_v1_frames_only_the_uplink() {
+    let mut ambient = Ambient::new("prepared");
+    ambient.socket_opened();
+    ambient.packet_encoded(false);
+    ambient
+        .frame(
+            &json!({"type":"meta", "conn":"prepared", "media":1, "role":"master"}),
+            0,
+        )
+        .unwrap();
+    ambient
+        .frame(&json!({"type":"speech", "speech_id":"prepared"}), 1)
+        .unwrap();
+    for packet in [&[0xb8, 0xff, 0xfe][..], &[1, 2, 3][..], &[2][..]] {
+        assert_eq!(
+            ambient.uplink(packet).unwrap(),
+            Some([&[1], packet].concat())
+        );
+        assert_eq!(ambient.downlink(packet).unwrap(), packet);
+        assert_eq!(
+            ambient.binary(packet).unwrap(),
+            vec![AudioAction::Decode {
+                generation: ambient.generation,
+                packet: packet.to_vec()
+            }]
+        );
+    }
+    assert!(ambient.downlink(&[]).is_err());
+    assert!(ambient.downlink(&[0; 1276]).is_err());
+    assert_eq!(ambient.downlink(&[0; 1275]).unwrap().len(), 1275);
+}
 
 fn config() -> SessionConfig {
     SessionConfig {

@@ -7,6 +7,9 @@ messages and Ambient audio coordination. Rust applications use `pocket-core`; ot
 link `libpocket_core` through a versioned C ABI. A native reference client exercises HTTP/WebSocket
 transport over the network already available to the process. No Go runtime or embedded Tailscale.
 
+[0.1.1 SDK preview](https://github.com/openduo/pocket-rs/releases/tag/v0.1.1) corrects Ambient
+media-v1 downlink: kind bytes apply only to uplink; received Opus packets stay unchanged.
+
 ```text
 Android / Swift / Linux host
       │ commands, completion generations, explicit effects
@@ -36,8 +39,8 @@ interruption. It never opens a microphone, plays sound or contacts a real room.
 Install a downloaded Linux bundle with an explicit prefix:
 
 ```sh
-tar -xzf pocket-rs-0.1.0-aarch64-unknown-linux-gnu.tar.gz
-cd pocket-rs-0.1.0-aarch64-unknown-linux-gnu
+tar -xzf pocket-rs-0.1.1-aarch64-unknown-linux-gnu.tar.gz
+cd pocket-rs-0.1.1-aarch64-unknown-linux-gnu
 ./install.sh --prefix "$HOME/.local/pocket-rs"
 "$HOME/.local/pocket-rs/bin/pocket" self-test
 "$HOME/.local/pocket-rs/bin/pocket-c-smoke"
@@ -84,7 +87,10 @@ Android now adopts the shared protocol through JNI for Chat request construction
 framing, live validation, Ambient input/output and retry rules. Existing Android networking, storage,
 UI and audio resources stay platform-owned; its application coordination does not dispatch a second
 Rust Session. See [Android integration](docs/android.md) for exact evidence and ownership. iOS app
-integration remains future work through the tested C module/XCFramework. Push and Sight remain deferred. See the migration plan for the complete remaining scope; no parity percentage is claimed.
+integration remains future work through the tested C module/XCFramework. Android Sight negotiation
+and video uplink are implemented and separately checked in Pocket Android; camera ownership stays
+in the host. Push remains deferred. See the migration plan for the complete remaining scope;
+no parity percentage is claimed.
 
 Licensed under [FSL-1.1-Apache-2.0](LICENSE); see [NOTICE](NOTICE) and
 [third-party notices](THIRD_PARTY_NOTICES.md).

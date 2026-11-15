@@ -12,9 +12,9 @@ bundle to Alpine/musl or a 32-bit userspace.
 Verify the `.sha256` file, extract, and run its installer with a dedicated absolute prefix:
 
 ```sh
-sha256sum -c pocket-rs-0.1.0-aarch64-unknown-linux-gnu.tar.gz.sha256
-tar -xzf pocket-rs-0.1.0-aarch64-unknown-linux-gnu.tar.gz
-cd pocket-rs-0.1.0-aarch64-unknown-linux-gnu
+sha256sum -c pocket-rs-0.1.1-aarch64-unknown-linux-gnu.tar.gz.sha256
+tar -xzf pocket-rs-0.1.1-aarch64-unknown-linux-gnu.tar.gz
+cd pocket-rs-0.1.1-aarch64-unknown-linux-gnu
 ./install.sh --prefix "$HOME/.local/pocket-rs"
 "$HOME/.local/pocket-rs/bin/pocket" self-test
 "$HOME/.local/pocket-rs/bin/pocket-c-smoke"

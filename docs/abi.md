@@ -80,7 +80,8 @@ adapters supply permissions/background policy while preserving already-started p
 `frame_voice`, `parse_voice` and `request`. The last takes a session config and `RequestCommand`.
 It constructs authenticated, origin-relative data requests without executing them. Pairing and
 health requests omit authorization. Input JSON is bounded at 24 MiB, while individual live Opus
-packets are at most 1,275 bytes (1,276 with media-v1 kind byte).
+packets are at most 1,275 bytes (1,276 on media-v1 uplink with its kind byte). Downlink is always
+one raw Opus packet, including after media-v1 negotiation.
 
 Additional stateless operations are `endpoint`, `query`, `decode_state`, `decode_live`, `uploaded`,
 `voice_retry` and `redial`. Retry calls return opaque serialized state plus remaining/delay values;
@@ -103,7 +104,7 @@ Dispatch returns `{result,state}`; snapshots contain no credentials. Input comma
 monotonic `now_ms`; output `played` carries a declaration key and absolute hardware ms. This
 adapter preserves the same core clock for platforms without per-block completion callbacks.
 Packet commands use `finish`; binary kind 0 feeds incremental chunks, 1 frames input uplink,
-2 unwraps media downlink and 3 validates an entire voice body. Close each component explicitly.
+2 validates and returns unchanged raw Opus downlink and 3 validates an entire voice body. Close each component explicitly.
 There are at most 256 combined session/component handles. Do not run Session and granular owners
 as independent executors of the same behavior.
 

@@ -3,7 +3,7 @@
 //! Granular owners for incremental platform adoption; never run beside a Session for the same work.
 use pocket_core::{
     Error, Result,
-    audio::{Ambient, AudioAction, PacketStream, validate_packet},
+    audio::{Ambient, AudioAction, PacketStream},
 };
 use serde_json::{Value, json};
 
@@ -145,18 +145,7 @@ impl Component {
             Self::Packets(p) if kind == 0 => json!(p.push(bytes)?),
             Self::Packets(_) if kind == 3 => json!(pocket_core::audio::validate_voice(bytes)?),
             Self::Input(a) if kind == 1 => json!(a.uplink(bytes)?),
-            Self::Input(a) if kind == 2 => {
-                let packet = if a.framed {
-                    if bytes.first() != Some(&1) {
-                        return Ok(json!({"result":null, "state":self.snapshot()}));
-                    }
-                    &bytes[1..]
-                } else {
-                    bytes
-                };
-                validate_packet(packet)?;
-                json!(packet)
-            }
+            Self::Input(a) if kind == 2 => json!(a.downlink(bytes)?),
             _ => return Err(Error::invalid("Invalid binary component operation")),
         };
         Ok(json!({"result":result, "state":self.snapshot()}))
@@ -171,5 +160,25 @@ impl Component {
             }
             Self::Packets(p) => json!({"partial":p.buffered_bytes()}),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn negotiated_input_keeps_raw_downlink_bytes() {
+        let mut input = Component::new(&json!({"type":"ambient_input"})).unwrap();
+        input
+            .dispatch(&json!({"type":"meta", "room":"prepared", "frame":{
+                "type":"meta", "conn":"prepared", "media":1
+            }}))
+            .unwrap();
+        for bytes in [&[0xb8, 0xff, 0xfe][..], &[1, 2, 3][..]] {
+            assert_eq!(input.binary(2, bytes).unwrap()["result"], json!(bytes));
+        }
+        assert!(input.binary(2, &[]).is_err());
+        assert!(input.binary(2, &[0; 1276]).is_err());
     }
 }

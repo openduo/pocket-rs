@@ -42,7 +42,7 @@ not link the Rust network client or Go. `python3 scripts/package-android.py` emi
 consumer keep rules, licenses and a checksummed source/integration SDK archive. AAR consumers use:
 
 ```groovy
-dependencies { implementation files('libs/pocket-core-0.1.0.aar') }
+dependencies { implementation files('libs/pocket-core-0.1.1.aar') }
 ```
 
 The AAR exposes `dev.openduo.pocket.protocol.NativeCore`; its operation constants map to the

@@ -54,7 +54,8 @@ AVAudioEngine, Keychain and background policy. Preserve its storage schemas init
 typed commands/effects at one small bridge, and move shared behavior only after compatibility tests.
 Do not expose Rust layouts, Tokio types or Rust-owned pointers as Swift domain models.
 
-The current release covers room Chat/voice/Ambient and adjacent room data contracts. Push and
-Sight remain deferred by the user. Passport BLE, geographic monitoring, Markdown/UI reducers,
+The current release covers room Chat/voice/Ambient and adjacent room data contracts. Its media-v1
+downlink fix supports Android's resumed Sight connection; camera capture/uplink stays in Pocket
+Android and has separate acceptance. Push remains deferred. Passport BLE, geographic monitoring, Markdown/UI reducers,
 full app database migration, wake words, microphone drivers and acoustic AEC are platform or later
 migration work, listed explicitly in status rather than represented as completed parity.

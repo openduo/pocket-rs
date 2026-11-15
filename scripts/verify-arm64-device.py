@@ -12,7 +12,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 parser = argparse.ArgumentParser()
 parser.add_argument("--serial", required=True)
 parser.add_argument("--bundle", type=pathlib.Path, required=True)
-parser.add_argument("--prefix", default="/var/tmp/pocket-rs-0.1.0")
+parser.add_argument("--prefix", default="/var/tmp/pocket-rs-0.1.1")
 args = parser.parse_args()
 if not args.prefix.startswith(("/var/tmp/pocket-rs-", "/tmp/pocket-rs-")) or ".." in pathlib.PurePosixPath(args.prefix).parts:
     raise SystemExit("Use a dedicated temporary pocket-rs prefix")

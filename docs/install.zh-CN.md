@@ -9,9 +9,9 @@ ARM64 安装包面向 `aarch64-unknown-linux-gnu`，使用原生 Debian Bookworm
 下载 `.tar.gz` 与摘要文件，校验后解压并指定独立目录：
 
 ```sh
-sha256sum -c pocket-rs-0.1.0-aarch64-unknown-linux-gnu.tar.gz.sha256
-tar -xzf pocket-rs-0.1.0-aarch64-unknown-linux-gnu.tar.gz
-cd pocket-rs-0.1.0-aarch64-unknown-linux-gnu
+sha256sum -c pocket-rs-0.1.1-aarch64-unknown-linux-gnu.tar.gz.sha256
+tar -xzf pocket-rs-0.1.1-aarch64-unknown-linux-gnu.tar.gz
+cd pocket-rs-0.1.1-aarch64-unknown-linux-gnu
 ./install.sh --prefix "$HOME/.local/pocket-rs"
 "$HOME/.local/pocket-rs/bin/pocket" self-test
 "$HOME/.local/pocket-rs/bin/pocket-c-smoke"

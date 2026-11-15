@@ -32,7 +32,7 @@ SessionViewer 的会话 watch／通知命令序列化及 Passport／Sight／地�
 构建需要 Rust 1.100.0、两个 Android target、JDK17 和固定 NDK `28.2.13676358`。
 `scripts/build-android.sh` 只构建 FFI 和 JNI；`python3 scripts/package-android.py` 生成标准
 双 ABI AAR、混淆保留规则、许可证和含源码／说明的 SDK 包。普通 Android 工程可用
-`implementation files('libs/pocket-core-0.1.0.aar')`，原 Pocket Android 则从固定源码构建。
+`implementation files('libs/pocket-core-0.1.1.aar')`，原 Pocket Android 则从固定源码构建。
 接口说明见 [ABI](abi.md) 和 [Java 示例](../examples/java/Consumer.java)。
 
 Android 的既有 Go／Tailscale 网络适配器继续提供网络；Rust 协议库没有 Go 依赖。Linux 可以直接

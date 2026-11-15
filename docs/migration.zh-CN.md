@@ -35,6 +35,7 @@ Android 使用细粒度所有者，新的 Linux 宿主可使用聚合 Session，
 通过 C module／静态库／XCFramework 接入，保留 SwiftUI、AVAudioSession／Engine、Keychain
 及后台政策。任何阶段每个会话行为都只有一个实际执行者，避免新旧核心重复发消息或同时占用麦克风。
 
-本轮范围包括房间 Chat／语音／Ambient 及相邻数据协议。Push、Sight 延续暂缓；Passport BLE、地理
+本轮范围包括房间 Chat／语音／Ambient 及相邻数据协议。媒体下行修正支持 Android 恢复后的 Sight
+连接，相机采集／上传仍在 Pocket Android 单独实现与验收。Push 继续暂缓；Passport BLE、地理
 监控、Markdown／界面状态、完整 APP 数据库迁移、唤醒词、设备驱动与声学 AEC 留在后续迁移清单。
 具体实现和实际验收分开记录，不能将参考端本地协议通过写成真实房间／人声验收。
