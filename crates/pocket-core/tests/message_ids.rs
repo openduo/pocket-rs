@@ -97,8 +97,7 @@ fn malformed_ids_fail_all_message_admission_paths_without_pending_work() {
             assert_eq!(
                 session
                     .dispatch(command)
-                    .err()
-                    .expect("Invalid ID must not emit effects")
+                    .expect_err("Invalid ID must not emit effects")
                     .code,
                 "invalid_idempotency_key",
                 "{id:?}"
