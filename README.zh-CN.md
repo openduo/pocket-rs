@@ -46,3 +46,5 @@ Android 现已通过 JNI 接入共享协议：Chat 请求、配对、语音分�
 只有上行增加类型字节，接收的 Opus 包保持完整。Android Sight 协商与视频上传已在 Pocket Android
 单独通过短验收，相机仍由宿主拥有。Push 继续暂缓；Linux 设备音频驱动、声学 AEC、唤醒词和
 免按键交互仍属后续产品接入。代码许可为 [FSL-1.1-Apache-2.0](LICENSE)。
+
+文字、语音消息的 ID 必须是 `8-4-4-4-12` 十六进制 UUID。核心统一校验 Rust、C ABI/JNI 请求构造和 Session 入队/恢复；无效 ID 在产生请求或持久化副作用前返回 `invalid_idempotency_key`。大写十六进制输入可以使用，请求统一小写；重试始终保留同一 ID 和正文。

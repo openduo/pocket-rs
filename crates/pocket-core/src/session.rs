@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: FSL-1.1-Apache-2.0
 use crate::{
     CLIENT_API_MAJOR, Error, Result,
-    api::{Api, Attachment, Request, Surface, query},
+    api::{Api, Attachment, Request, Surface, query, validate_message_id},
     audio::{Ambient, AudioAction, validate_packet, validate_voice},
     live::{LiveEvent, RowCursor},
     pairing::{DeviceScope, Endpoint, unauthorized},
@@ -815,10 +815,14 @@ impl Session {
                         .voice(&id, &body, &source, self.surface, place.as_deref(), None)?;
                 self.prepare(request, true, now_ms)
             }
-            Command::Restore { message, now_ms } => {
+            Command::Restore {
+                mut message,
+                now_ms,
+            } => {
                 if message.version != 1 || message.room != self.api.room() {
                     return Err(Error::invalid("Stored message version or room mismatch"));
                 }
+                validate_message_id(&message.id)?;
                 if message.headers.get("Idempotency-Key") != Some(&message.id)
                     || message.headers.keys().any(|k| {
                         !matches!(
@@ -834,6 +838,11 @@ impl Session {
                 {
                     return Err(Error::invalid("Invalid stored message headers"));
                 }
+                // The server canonicalizes UUIDs, so restore the same identity
+                // used by newly constructed text and voice requests.
+                message
+                    .headers
+                    .insert("Idempotency-Key".into(), message.id.to_ascii_lowercase());
                 if message.voice {
                     validate_voice(&message.body)?;
                 } else {

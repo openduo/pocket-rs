@@ -41,8 +41,8 @@ int main(void) {
     dispatch(handle, "{\"type\":\"live_text\",\"generation\":1,\"frame\":{\"type\":\"speech\",\"speech_id\":\"c-prepared\"}}", "reset_decoder");
     const uint8_t packet[] = {0xb8, 0xff, 0xfe};
     expect(pocket_session_binary(handle, 1, packet, sizeof packet), 0, "decode");
-    dispatch(handle, "{\"type\":\"send_text\",\"id\":\"prepared-message\",\"text\":\"Prepared text\",\"now_ms\":0}", "persist");
-    dispatch(handle, "{\"type\":\"persisted\",\"id\":\"prepared-message\",\"generation\":1,\"ok\":false,\"now_ms\":0}", "storage_failed");
+    dispatch(handle, "{\"type\":\"send_text\",\"id\":\"00000000-0000-4000-8000-000000000030\",\"text\":\"Prepared text\",\"now_ms\":0}", "persist");
+    dispatch(handle, "{\"type\":\"persisted\",\"id\":\"00000000-0000-4000-8000-000000000030\",\"generation\":1,\"ok\":false,\"now_ms\":0}", "storage_failed");
     expect(pocket_session_close(handle), 0, "close_live");
     expect(pocket_session_close(handle), 1, "invalid_handle");
     expect(pocket_session_binary(handle, 1, packet, sizeof packet), 1, "invalid_handle");

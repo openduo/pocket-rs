@@ -501,7 +501,7 @@ mod tests {
                 false
             );
             assert_eq!(take(pocket_component_close(handle)).0, 0);
-            let request = br#"{"config":{"endpoint":{"host":"example.test","port":443,"tls":true},"room":"fixture","token":"prepared"},"request":{"type":"voice","id":"same-key","source":"phone","place":"fixture-place"}}"#;
+            let request = br#"{"config":{"endpoint":{"host":"example.test","port":443,"tls":true},"room":"fixture","token":"prepared"},"request":{"type":"voice","id":"00000000-0000-4000-8000-000000000020","source":"phone","place":"fixture-place"}}"#;
             let body = [3, 0, 0xb8, 0xff, 0xfe];
             let (status, _, result) = take(pocket_request_build(
                 request.as_ptr(),
@@ -513,6 +513,34 @@ mod tests {
             assert_eq!(result["input_body"], true);
             assert_eq!(result["body"], json!([]));
             assert_eq!(result["headers"]["X-Ambient-Place"], "fixture-place");
+        }
+    }
+    #[test]
+    fn malformed_message_id_is_rejected_by_stateless_and_session_boundaries() {
+        unsafe {
+            let request = br#"{"config":{"endpoint":{"host":"example.test","port":443,"tls":true},"room":"prepared","token":"prepared-token"},"request":{"type":"voice","id":"e1-0123456789abcdef","source":"phone"}}"#;
+            let body = [3, 0, 0xb8, 0xff, 0xfe];
+            let (status, _, result) = take(pocket_request_build(
+                request.as_ptr(),
+                request.len(),
+                body.as_ptr(),
+                body.len(),
+            ));
+            assert_ne!(status, 0);
+            assert_eq!(result["error"]["code"], "invalid_idempotency_key");
+
+            let config = br#"{"endpoint":{"host":"example.test","port":443,"tls":true},"room":"prepared","token":"prepared-token"}"#;
+            let (_, handle, _) = take(pocket_session_create(config.as_ptr(), config.len()));
+            let command =
+                br#"{"type":"send_text","id":"e1-0123456789abcdef","text":"prepared","now_ms":0}"#;
+            let (status, _, result) = take(pocket_session_dispatch(
+                handle,
+                command.as_ptr(),
+                command.len(),
+            ));
+            assert_ne!(status, 0);
+            assert_eq!(result["error"]["code"], "invalid_idempotency_key");
+            assert_eq!(take(pocket_session_close(handle)).0, 0);
         }
     }
     #[test]

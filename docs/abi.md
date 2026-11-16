@@ -45,6 +45,14 @@ server events remain available to the host without crashing the protocol owner.
 Output decode effects currently include owned byte arrays; applications should process each batch
 promptly. A future ABI can add bulk binary output without changing ABI v1's functions.
 
+Message IDs supplied to text/voice request construction or durable session admission must use
+UUID syntax (`8-4-4-4-12` hexadecimal digits). The core checks this before producing a request
+or a persistence effect and returns `invalid_idempotency_key` for malformed IDs, including
+application-specific prefixes. Uppercase hexadecimal input is accepted and requests use lowercase.
+The core also validates restored durable records; it does not silently assign a different ID to an
+invalid record. Generate an ID once in the host and preserve it with the same body on every retry.
+The Rust request, C ABI/JNI request builder and session APIs share this validation.
+
 ## Effect execution rules
 
 - **Open live:** HTTP upgrade over the endpoint configured for this session, with its headers;

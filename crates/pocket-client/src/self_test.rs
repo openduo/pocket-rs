@@ -337,9 +337,12 @@ fn serve(mut stream: TcpStream, log: &Arc<Mutex<Vec<Observed>>>) -> Result<()> {
         }
         let attempts = observations
             .iter()
-            .filter(|o| o.path.starts_with("/api/messages?") && o.headers.contains("prepared-text"))
+            .filter(|o| {
+                o.path.starts_with("/api/messages?")
+                    && o.headers.contains("00000000-0000-4000-8000-000000000010")
+            })
             .count();
-        if headers.contains("prepared-text") && attempts == 1 {
+        if headers.contains("00000000-0000-4000-8000-000000000010") && attempts == 1 {
             (
                 503,
                 "application/json",
@@ -428,7 +431,7 @@ pub fn run() -> Result<Value> {
     };
     let mut session = Session::new(config)?;
     let effects = session.dispatch(Command::SendText {
-        id: "prepared-text".into(),
+        id: "00000000-0000-4000-8000-000000000010".into(),
         text: "Prepared 文本".into(),
         attachments: vec![],
         place: None,
@@ -446,7 +449,7 @@ pub fn run() -> Result<Value> {
         "Admission record omits credential",
     )?;
     let effects = session.dispatch(Command::Persisted {
-        id: "prepared-text".into(),
+        id: "00000000-0000-4000-8000-000000000010".into(),
         generation,
         ok: true,
         now_ms: 0,
@@ -465,7 +468,7 @@ pub fn run() -> Result<Value> {
     let first = first.ok_or_else(|| Error::protocol("Missing admitted HTTP send"))?;
     check(first.status == 503, "Prepared transient failure occurs")?;
     let retry = session.dispatch(Command::HttpResult {
-        id: "prepared-text".into(),
+        id: "00000000-0000-4000-8000-000000000010".into(),
         generation,
         status: first.status,
         body: first.body,
@@ -491,7 +494,7 @@ pub fn run() -> Result<Value> {
             let response = network.request(&fixture.endpoint, &request, timeout_ms)?;
             check(response.status == 202, "Retried text accepted")?;
             session.dispatch(Command::HttpResult {
-                id: "prepared-text".into(),
+                id: "00000000-0000-4000-8000-000000000010".into(),
                 generation,
                 status: response.status,
                 body: response.body,
@@ -505,7 +508,7 @@ pub fn run() -> Result<Value> {
             .request(
                 &fixture.endpoint,
                 &api.voice(
-                    "prepared-voice",
+                    "00000000-0000-4000-8000-000000000011",
                     &voice,
                     "phone",
                     Surface::default(),
@@ -669,7 +672,7 @@ pub fn run() -> Result<Value> {
         .map_err(|_| Error::protocol("Fixture log poisoned"))?;
     let attempts: Vec<_> = observations
         .iter()
-        .filter(|o| o.headers.contains("prepared-text"))
+        .filter(|o| o.headers.contains("00000000-0000-4000-8000-000000000010"))
         .collect();
     check(
         attempts.len() == 2
