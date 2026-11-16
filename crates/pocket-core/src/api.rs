@@ -51,6 +51,27 @@ pub fn validate_header(value: &str) -> Result<()> {
     Ok(())
 }
 
+/// Validate the UUID-shaped idempotency key required by POST /api/messages.
+/// Match the server's hexadecimal 8-4-4-4-12 syntax without restricting UUID
+/// version or variant. Request construction canonicalizes accepted IDs to lowercase.
+pub fn validate_message_id(id: &str) -> Result<()> {
+    if id.len() != 36
+        || !id.bytes().enumerate().all(|(index, byte)| {
+            if matches!(index, 8 | 13 | 18 | 23) {
+                byte == b'-'
+            } else {
+                byte.is_ascii_hexdigit()
+            }
+        })
+    {
+        return Err(Error::new(
+            "invalid_idempotency_key",
+            "Message ID must be a UUID with 8-4-4-4-12 hexadecimal digits",
+        ));
+    }
+    Ok(())
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Display {
@@ -211,14 +232,7 @@ impl Api {
         surface: Surface,
         place: Option<&str>,
     ) -> Result<BTreeMap<String, String>> {
-        if id.is_empty()
-            || id.len() > 128
-            || !id
-                .bytes()
-                .all(|b| b.is_ascii_alphanumeric() || b"-_.:".contains(&b))
-        {
-            return Err(Error::invalid("Invalid idempotency key"));
-        }
+        validate_message_id(id)?;
         let mut headers = surface.headers();
         headers.insert("Idempotency-Key".into(), id.to_ascii_lowercase());
         if let Some(place) = place.filter(|s| !s.is_empty()) {

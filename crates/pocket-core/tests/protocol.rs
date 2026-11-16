@@ -282,10 +282,10 @@ fn final_unmute_survives_press_end_and_retiring_connection() {
 #[test]
 fn persistence_is_required_and_stale_or_failed_admission_cannot_send() {
     let mut s = session();
-    let g = prepare(&mut s, "one");
+    let g = prepare(&mut s, "00000000-0000-4000-8000-000000000001");
     assert!(
         s.dispatch(Command::Persisted {
-            id: "one".into(),
+            id: "00000000-0000-4000-8000-000000000001".into(),
             generation: g + 1,
             ok: true,
             now_ms: 0
@@ -295,22 +295,22 @@ fn persistence_is_required_and_stale_or_failed_admission_cannot_send() {
     );
     let effects = s
         .dispatch(Command::Persisted {
-            id: "one".into(),
+            id: "00000000-0000-4000-8000-000000000001".into(),
             generation: g,
             ok: false,
             now_ms: 0,
         })
         .unwrap();
     assert!(!effects.iter().any(|e| matches!(e, Effect::Http { .. })));
-    let g = prepare(&mut s, "two");
+    let g = prepare(&mut s, "00000000-0000-4000-8000-000000000002");
     s.dispatch(Command::Discard {
-        id: "two".into(),
+        id: "00000000-0000-4000-8000-000000000002".into(),
         now_ms: 0,
     })
     .unwrap();
     assert!(
         s.dispatch(Command::Persisted {
-            id: "two".into(),
+            id: "00000000-0000-4000-8000-000000000002".into(),
             generation: g,
             ok: true,
             now_ms: 0
@@ -323,9 +323,9 @@ fn persistence_is_required_and_stale_or_failed_admission_cannot_send() {
 fn live_settlement_outranks_late_http_and_cancellation_retires_retry() {
     let mut s = session();
     let connection = opened(&mut s);
-    let operation = prepare(&mut s, "one");
+    let operation = prepare(&mut s, "00000000-0000-4000-8000-000000000001");
     s.dispatch(Command::Persisted {
-        id: "one".into(),
+        id: "00000000-0000-4000-8000-000000000001".into(),
         generation: operation,
         ok: true,
         now_ms: 0,
@@ -333,13 +333,13 @@ fn live_settlement_outranks_late_http_and_cancellation_retires_retry() {
     .unwrap();
     s.dispatch(Command::LiveText {
         generation: connection,
-        frame: json!({"type":"message","id":"one","state":"cleaned","text":"recognized"}),
+        frame: json!({"type":"message","id":"00000000-0000-4000-8000-000000000001","state":"cleaned","text":"recognized"}),
         now_ms: 1,
     })
     .unwrap();
     assert!(
         s.dispatch(Command::HttpResult {
-            id: "one".into(),
+            id: "00000000-0000-4000-8000-000000000001".into(),
             generation: operation,
             status: 401,
             body: br#"{"error":"unauthorized"}"#.to_vec(),
@@ -351,7 +351,7 @@ fn live_settlement_outranks_late_http_and_cancellation_retires_retry() {
     assert!(s.snapshot().authorized);
     assert!(
         s.dispatch(Command::Retry {
-            id: "one".into(),
+            id: "00000000-0000-4000-8000-000000000001".into(),
             generation: operation,
             now_ms: 500
         })
@@ -362,10 +362,10 @@ fn live_settlement_outranks_late_http_and_cancellation_retires_retry() {
 #[test]
 fn retry_bytes_and_budget_are_frozen() {
     let mut s = session();
-    let generation = prepare(&mut s, "one");
+    let generation = prepare(&mut s, "00000000-0000-4000-8000-000000000001");
     let effects = s
         .dispatch(Command::Persisted {
-            id: "one".into(),
+            id: "00000000-0000-4000-8000-000000000001".into(),
             generation,
             ok: true,
             now_ms: 0,
@@ -383,7 +383,7 @@ fn retry_bytes_and_budget_are_frozen() {
         .unwrap();
     let effects = s
         .dispatch(Command::HttpResult {
-            id: "one".into(),
+            id: "00000000-0000-4000-8000-000000000001".into(),
             generation,
             status: 503,
             body: vec![],
@@ -413,7 +413,7 @@ fn retry_bytes_and_budget_are_frozen() {
         .unwrap();
     assert_eq!(first, second);
     s.dispatch(Command::HttpResult {
-        id: "one".into(),
+        id: "00000000-0000-4000-8000-000000000001".into(),
         generation,
         status: 503,
         body: vec![],
@@ -422,7 +422,7 @@ fn retry_bytes_and_budget_are_frozen() {
     .unwrap();
     assert!(
         !s.dispatch(Command::Retry {
-            id: "one".into(),
+            id: "00000000-0000-4000-8000-000000000001".into(),
             generation,
             now_ms: 25_000
         })
@@ -491,10 +491,10 @@ fn session_scope_and_unknown_additive_frames() {
 #[test]
 fn discarding_current_send_admits_the_next_persisted_message() {
     let mut s = session();
-    let first = prepare(&mut s, "first");
-    let second = prepare(&mut s, "second");
+    let first = prepare(&mut s, "00000000-0000-4000-8000-000000000003");
+    let second = prepare(&mut s, "00000000-0000-4000-8000-000000000004");
     s.dispatch(Command::Persisted {
-        id: "first".into(),
+        id: "00000000-0000-4000-8000-000000000003".into(),
         generation: first,
         ok: true,
         now_ms: 0,
@@ -502,7 +502,7 @@ fn discarding_current_send_admits_the_next_persisted_message() {
     .unwrap();
     assert!(
         s.dispatch(Command::Persisted {
-            id: "second".into(),
+            id: "00000000-0000-4000-8000-000000000004".into(),
             generation: second,
             ok: true,
             now_ms: 1
@@ -512,18 +512,16 @@ fn discarding_current_send_admits_the_next_persisted_message() {
     );
     let effects = s
         .dispatch(Command::Discard {
-            id: "first".into(),
+            id: "00000000-0000-4000-8000-000000000003".into(),
             now_ms: 2,
         })
         .unwrap();
     assert!(
         effects
             .iter()
-            .any(|e| matches!(e, Effect::CancelHttp { id, .. } if id == "first"))
+            .any(|e| matches!(e, Effect::CancelHttp { id, .. } if id == "00000000-0000-4000-8000-000000000003"))
     );
-    assert!(
-        effects
-            .iter()
-            .any(|e| matches!(e, Effect::Http { id, .. } if id == "second"))
-    );
+    assert!(effects.iter().any(
+        |e| matches!(e, Effect::Http { id, .. } if id == "00000000-0000-4000-8000-000000000004")
+    ));
 }

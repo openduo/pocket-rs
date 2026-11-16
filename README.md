@@ -58,10 +58,13 @@ fn example() -> pocket_core::Result<()> {
     let link = PairingLink::parse("duoduopocket://pair?host=example.test&code=prepared")?;
     // Redeem the code through the host's transport; store the resulting token privately.
     let api = Api::new(link.endpoint, "prepared-room", "device-token")?;
-    let request = api.text("stable-message-id", "Hello", &[], Surface::default(), None)?;
+    let request = api.text("00000000-0000-4000-8000-000000000040", "Hello", &[], Surface::default(), None)?;
     Ok(())
 }
 ```
+
+Message IDs must be UUIDs. Invalid IDs return `invalid_idempotency_key` locally before request
+construction or durable admission; see [the ID contract](docs/abi.md#configuration-and-control).
 
 For a durable session, create `Session`, dispatch typed `Command`s and execute returned `Effect`s.
 Persist admission records before returning `Persisted`; report hardware completion only after audio
